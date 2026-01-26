@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="cases.css">
     <link rel="stylesheet" href="news.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script src="code.js"></script>
+    <script src="cases.js"></script>
 </head>
 <body>
     <div class="container">
@@ -17,11 +17,11 @@
             <img src="img/startscreen/interpool_logo.svg" alt="" class="header__logo">
             <nav class="header__nav">
                 <ul class="header__nav__list">
-                    <li class="header__nav__list_part">Главная</li>
-                    <li class="header__nav__list_part">Кейсы</li>
-                    <li class="header__nav__list_part">О нас</li>
-                    <li class="header__nav__list_part">Медиа</li>
-                    <li class="header__nav__list_part">Контакты</li>
+                    <li class="header__nav__list_part"><a href="#">Главная</a></li>
+                    <li class="header__nav__list_part"><a href="#">Кейсы</a></li>
+                    <li class="header__nav__list_part"><a href="#">О нас</a></li>
+                    <li class="header__nav__list_part"><a href="#">Макет</a></li>
+                    <li class="header__nav__list_part"><a href="#">Контакты</a></li>
                 </ul>
             </nav>
             <div class="header__contacts">
@@ -30,10 +30,10 @@
             </div>
         </header>
         <section class="start-screen">
-            <header class="start-screen__header"><strong>С нами идеи </br>обретают <span style="color:#E3032E;">крылья</span>!</strong></header>
+            <h1 class="start-screen__header"><strong>С нами идеи </br>обретают <span style="color:#E3032E;">крылья</span>!</strong></h1>
             <button class="start-screen__cases">Кейсы</button>
             <footer class="start-screen__footer">
-                <p class="start-screen__footer-author"><span style="color:#E3032E;">Interpool</span> — независимый селлер интернет-рекламы, который реализует собственные рекламные продукты.</p>
+                <h2 class="start-screen__footer-author"><span style="color:#E3032E;">Interpool</span> — независимый селлер интернет-рекламы, который реализует собственные рекламные продукты.</h2>
                 <div class="start-screen__footer_projects">
                     <header class="start-screen__footer_projects-header">Проекты</header>
                     <div class="start-screen__footer_projects-slider">
@@ -51,7 +51,7 @@
             </footer>
         </section>
         <section class="cases">
-            <header class="cases__header">Актуальное</header>
+            <header class="cases__header"><h2>Актуальное</h2></header>
             <div id="cases__screen"></div>
             <div class="cases__icons">
                 <div class="cases__icons_part" id="samolet_icon">
@@ -73,97 +73,113 @@
                     <img src="img/startscreen/actualCases/icons/AAG.svg" alt="" class="cases__icons-part_img">
                 </div>
             </div>
-            <header class="cases__header">Кейсы</header>
+            <header class="cases__header"><h2>Кейсы</h2></header>
             <nav class="cases__button">Показать все
                 <img src="img/startscreen/arrow.svg" alt="" class="cases__button_img">
             </nav>
             <div class="cases__projects">
                 <div class="cases__projects_case">
                     <img src="img/startscreen/actualCases/bigicons/samolet.svg" alt="" class="cases__projects_case_img">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">Самолет</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Банки</p>
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">Самолет</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Банки</p>
+                        </div>
                     </div>
                 </div>
                 <div class="cases__projects_case">        
                     <img src="img/startscreen/actualCases/bigicons/prime.svg" alt="" class="cases__projects_case_img">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">СберПрайм</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Баннер</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">СберПрайм</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Баннер</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>                      
                     </div>
                 </div>
                 <div class="cases__projects_case" >
                     <img src="img/startscreen/actualCases/bigicons/vkvideo.svg" alt="" class="cases__projects_case_img cases__projects_case_img_small">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img" >
-                        <p class="cases__projects_case_name_header">VK Video</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img" >
+                            <p class="cases__projects_case_name_header">VK Video</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>
                     </div>
                 </div>
                 <div class="cases__projects_case">
                     <img src="img/startscreen/actualCases/bigicons/dodopizza.svg" alt="" class="cases__projects_case_img">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">Додо пицца</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
-                    </div>
-                </div>
-                <div class="cases__projects_case">
-                    <img src="img/startscreen/actualCases/bigicons/gismeteo.svg" alt="" class="cases__projects_case_img cases__projects_case_img_small">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">Gismeteo</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">Додо пицца</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>
                     </div>
                 </div>
                 <div class="cases__projects_case">
-                    <img src="img/startscreen/actualCases/bigicons/AAG.svg" alt="" class="cases__projects_case_img cases__projects_case_img_small">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">AAG</p>
+                    <img src="img/startscreen/actualCases/bigicons/gismeteo.svg" alt="" class="cases__projects_case_img cases__projects_case_img">
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">Gismeteo</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>
                     </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                </div>
+                <div class="cases__projects_case">
+                    <img src="img/startscreen/actualCases/bigicons/AAG.svg" alt="" class="cases__projects_case_img cases__projects_case_img">
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">AAG</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>
                     </div>
                 </div>
                 <div class="cases__projects_case">
                     <img src="img/startscreen/actualCases/bigicons/azelik.svg" alt="" class="cases__projects_case_img">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">Азелик</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">Азелик</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>
                     </div>
                 </div>
                 <div class="cases__projects_case" >
                     <img src="img/startscreen/actualCases/bigicons/akvafor.svg" alt="" class="cases__projects_case_img cases__projects_case_img_small">
-                    <div class="cases__projects_case_name">
-                        <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
-                        <p class="cases__projects_case_name_header">Аквафор</p>
-                    </div>
-                    <div class="cases__projects_case_tegs">
-                        <p class="cases__projects_case_tegs_teg">Спецпроект</p>
-                        <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                    <div class="cases__projects_case-wrapper">
+                        <div class="cases__projects_case_name">
+                            <img src="img/startscreen/slesh.svg" alt="" class="cases__projects_case_name_img">
+                            <p class="cases__projects_case_name_header">Аквафор</p>
+                        </div>
+                        <div class="cases__projects_case_tegs">
+                            <p class="cases__projects_case_tegs_teg">Спецпроект</p>
+                            <p class="cases__projects_case_tegs_teg">Строительная компания</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,30 +187,30 @@
         
         <section class="footer">
             <div class="footer__news">
-                <header class="footer__news_header"><strong>Мастерская</strong></header>
+                <header class="footer__news_header"><h2><strong>Медиа</strong></h2></header>
                 <div class="footer__news_part">
                     <img src="img/startscreen/news/ozon-news.svg" alt="" class="footer__news_part_img">
-                    <h2 class="footer__news_part_header">Interpool и Ozon</h2>
+                    <h2 class="footer__news_part_header"><strong>Interpool и Ozon</strong></h2>
                     <p class="footer__news_part_text">Как с помощью интерактивного баннера привлечь внимание к распродаже</p>
                 </div>
                 <div class="footer__news_part">
                     <img src="img/startscreen/news/interpool-news_adds.svg" alt="" class="footer__news_part_img">
-                    <h2 class="footer__news_part_header">День работника рекламы</h2>
+                    <h2 class="footer__news_part_header"><strong>День работника рекламы</strong></h2>
                     <p class="footer__news_part_text">Поздравляем коллег, партнёров и клиентов индустрии с профессиональным днём.</p>
                 </div>
                 <div class="footer__news_part">
                     <img src="img/startscreen/news/digitalDay-news.svg" alt="" class="footer__news_part_img">
-                    <h2 class="footer__news_part_header">Digital Brand Day</h2>
+                    <h2 class="footer__news_part_header"><strong>Digital Brand Day</strong></h2>
                     <p class="footer__news_part_text">Мероприятие в восьмой раз стало точкой притяжения для экспертов цифрового...</p>
                 </div>
             </div>
             <img src="img/startscreen/interpool_logo.svg" alt="" class="footer__logo">
             <nav class="footer__nav">
                 <ul class="footer__nav_list">
-                    <li class="footer__nav_list_part">Главная</li>
-                    <li class="footer__nav_list_part">О нас</li>
-                    <li class="footer__nav_list_part">Проекты</li>
-                    <li class="footer__nav_list_part">Контакты</li>
+                    <li class="footer__nav_list_part"><a href="#">Главная</a></li>
+                    <li class="footer__nav_list_part"><a href="#">О нас</a></li>
+                    <li class="footer__nav_list_part"><a href="#">Проекты</a></li>
+                    <li class="footer__nav_list_part"><a href="#">Контакты</a></li>
                     <li class="footer__nav_list_part" style="color:#00000099; margin-top: 40px;">Политика конфидециальности</li>
                 </ul>
             </nav>

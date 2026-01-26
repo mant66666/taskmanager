@@ -14,12 +14,13 @@ ul.header__nav__list{
     justify-content: space-between;
     list-style: none;
     gap:40px;
-    li.header__nav__list_part{
+    a{
         color:#00000099;
         font-family: TT Commons;
         font-weight: 500;
         font-style: Medium;
         font-size: 16px;
+
     }
 }
 .header__contacts{
@@ -67,6 +68,7 @@ button.start-screen__cases{
     align-items: center;
     margin: auto;
     margin-bottom: 9vh;
+    cursor:pointer;
 }
 footer.start-screen__footer{
     display: flex;
@@ -74,9 +76,8 @@ footer.start-screen__footer{
     align-items: center;
     
 }
-p.start-screen__footer-author{
+h2{
         font-weight: 400;
-        font-style: Regular;
         font-size: 32px;
         max-width: 580px;
     }

@@ -3,7 +3,27 @@
     padding: 0;
     box-sizing: border-box;
 }
-.container{
-    padding: 64px 80px;
-    overflow-x: hidden;
+@media screen and (min-width:1080px) {
+    .container{
+        padding: 64px 80px;
+        overflow-x: hidden;
+    }
+}
+@media screen and (min-width:768px) and (max-width:1080px){
+    .container{
+        padding: 44px 50px;
+        overflow-x: hidden;
+    }
+}
+@media screen and (min-width:425px) and (max-width:768px){
+    .container{
+        padding: 34px 30px;
+        overflow-x: hidden;
+    }
+}
+@media screen and (max-width:425px){
+    .container{
+        padding: 24px 20px;
+        overflow-x: hidden;
+    }
 }

@@ -8,6 +8,33 @@
     color:#FFFFFFCC;
     padding: 80px;
 }
+@media screen and (min-width:1080px) {
+    .cases{
+        padding: 64px 80px;
+        overflow-x: hidden;
+    }
+}
+@media screen and (min-width:768px) and (max-width:1080px){
+    .cases{
+        padding: 44px 50px;
+        overflow-x: hidden;
+        margin-left: -50px;
+    }
+}
+@media screen and (min-width:425px) and (max-width:768px){
+    .cases{
+        padding: 34px 30px;
+        overflow-x: hidden;
+        margin-left: -30px;
+    }
+}
+@media screen and (max-width:425px){
+    .cases{
+        padding: 24px 20px;
+        overflow-x: hidden;
+        margin-left: -20px;
+    }
+}
 .cases__header{
     display: flex;
     width:100px;
@@ -18,16 +45,32 @@
     margin-bottom: 32px;
 }
 .cases__icons{
-    display: flex;
-    width:100%;
+    width: 100%;
     justify-content: space-between;
-    flex-wrap: wrap;
+    overflow-x: scroll;
     margin-bottom: 60px;
+    gap: 20px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE и Edge */
+    display: grid;
+    grid-template-columns: repeat(6, 197px); 
+    /* Webkit браузеры */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+@media screen and (max-width:425px){
+    .cases__icons{
+        grid-template-columns: repeat(6, 80px); 
+        grid-template-rows: repeat(1, 80px); 
+    }
 }
 .cases__icons_part{
-    width:197px;
-    border-radius: 16px;
+    display: flex;
+    height: auto;
+    border-radius: 50%;
     overflow: hidden;
+    cursor:pointer;
 }
 .cases__button{
     display: flex;
@@ -37,36 +80,54 @@
     font-style: Regular;
     font-size: 20px;
     margin-left: auto;
+    cursor: pointer;
 }
-.cases__projects{
+.cases__projects {
     display: flex;
+    gap: 40px;
+    width: 100%;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start; 
+}
+@media screen and (max-width:425px){
+    .cases__projects{
+        gap:20px;
+    }
+}
+@media (max-width: 768px) {
+    .cases__projects_case {
+        width:100% !important;
+    }
 }
 .cases__projects_case{
+    flex-direction: column;
+    height: auto;
+    gap:0;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-width: 630px;
-    margin-bottom: 20px;
+    width:calc(50% - 20px);
+    align-items: flex-start;
 }
 img.cases__projects_case_img{
     border-radius: 12px;
     overflow: hidden;
+    display: flex;
+    object-fit: contain;
     width:100%;
-    display: flex;
 }
-img.cases__projects_case_img_small{
-    height:380px;
+
+.cases__projects_case-wrapper{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width:100%;
+    flex-wrap: wrap;
 }
 .cases__projects_case_name{
     display: flex;
     flex-direction: row;
     height:20px;
-    width:30%;
     margin-top: 16px;
+    width:30%;
+    min-width: 150px;
 }
 p.cases__projects_case_name_header{
     font-weight: 400;
@@ -74,12 +135,18 @@ p.cases__projects_case_name_header{
     font-size: 20px;
 }
 .cases__projects_case_tegs{
-    width:70%;
     display: flex;
     justify-content: right;
     gap:4px;
     margin-top: 16px;
     height:20px;
+    width:70%;
+}
+@media screen and (max-width:425px){
+    .cases__projects_case_tegs{
+        justify-content: center;
+        width:100%;
+    }
 }
 p.cases__projects_case_tegs_teg{
     height:20px;
@@ -93,6 +160,9 @@ p.cases__projects_case_tegs_teg{
     display: flex;
     padding: 1px 12px;
 }
+
+
+/*всплывающие истории*/
 .cases__screen {
     position: fixed; top: 0; left: 0;
     backdrop-filter: blur(40px);
@@ -106,8 +176,7 @@ p.cases__projects_case_tegs_teg{
 }
 
 .cases__screen_main {
-    max-width: 640px;
-    width: 100%;
+    width: 60vw;
     display: block;
     margin: 0 auto;
     height:90vh;
@@ -117,9 +186,31 @@ p.cases__projects_case_tegs_teg{
     flex-direction: column;
     display: flex;
 }
-
+.cases__screen_main_storis-nav{
+    display: flex;
+    width:100%;
+    height:8px;
+    gap:8px;
+    flex-wrap: nowrap;
+    padding-left: 28px;
+    padding-right: 28px;
+    margin-top: 28px;
+    justify-content: center;
+    flex-direction: row;
+}
+.cases__screen_main_storis-nav_part{
+    display: flex;
+    background-size: 100% 8px;
+    background-repeat: no-repeat;
+    border: 0.01px black solid;
+    border-radius: 4px;
+    display: flex;
+    height:8px;
+    width:100%;
+}
 .close-btn-storis{
-    margin-left: 60vw;
+    margin-left: auto;
+    margin-top: -5vh;
     cursor: pointer;
     text-align: center;
     width: 24px;
@@ -146,7 +237,7 @@ p.cases__projects_case_tegs_teg{
     text-align: center;
     background: #ccc;
     display: flex;
-    width: 380px;
+    width: 30vw;
     height: 40px;
     border-radius: 32px;
     margin-top: 190%;

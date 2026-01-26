@@ -21,7 +21,12 @@ header.footer__news_header{
     flex-direction: row;
     gap:16px;
     margin-bottom: 8vh;
-    flex-wrap: wrap;
+    overflow-x: scroll;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 .footer__news_part{
     width: 305px;
@@ -29,10 +34,16 @@ header.footer__news_header{
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-   
 }
 img.footer__news_part_img{
     height:357px;
+}
+.footer__news_part_header{
+    font-size: 20px;
+    color:#000000CC;
+}
+.footer__news_part_text{
+    font-size: 16px;
 }
 img.footer__logo{
     display: flex;
@@ -53,4 +64,8 @@ li.footer__nav_list_part{
     font-size: 24px;
     display: flex;
     margin-bottom: 16px;
+    a{
+        text-decoration: none;
+        color:#000000;
+    }
 }
