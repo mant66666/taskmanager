@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     list.forEach((k) => {
         k.addEventListener("click", () => {
             currentIndex = list.indexOf(k);
-            
+            document.querySelector("body").style.overflow="hidden";
             storisWrapper.classList.add("cases__screen");
 
             storisWrapper.innerHTML = `
@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     storisWrapper.innerHTML = "";
                     storisWrapper.classList.remove("cases__screen");
                     storisWrapper.style.display = "none";
+                    document.querySelector("body").style.overflow="auto";
                     leftBtn = null;
                     rightBtn = null;
                 });

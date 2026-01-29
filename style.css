@@ -3,6 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+.container{
+    max-width: 1600px;
+    width:100vw;
+    justify-self: center;
+}
 @media screen and (min-width:1080px) {
     .container{
         padding: 64px 80px;

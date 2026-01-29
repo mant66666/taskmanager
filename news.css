@@ -21,38 +21,90 @@ header.footer__news_header{
     flex-direction: row;
     gap:16px;
     margin-bottom: 8vh;
+    flex-wrap: nowrap;
+}
+@media screen and (max-width:768px) {
+    .footer__news{
+        flex-wrap: wrap;
+        margin-bottom: 4vh;
+    }
+}
+.footer__news_wrapper{
+    display: flex;
     overflow-x: scroll;
     scrollbar-width: none; 
     -ms-overflow-style: none; 
+    flex-direction: row;
+    gap:16px;
     &::-webkit-scrollbar {
         display: none;
     }
 }
-.footer__news_part{
+@media screen and (max-width:768px) {
+    .footer__news_wrapper{
+        width:100%;
+    }
+}
+.footer__news_wrapper_part{
     width: 305px;
     height: 433px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
 }
-img.footer__news_part_img{
+img.footer__news_wrapper_part_img{
     height:357px;
 }
-.footer__news_part_header{
+.footer__news_wrapper_part_header{
     font-size: 20px;
     color:#000000CC;
 }
+.footer__news_wrapper_part_text{
+    font-size: 16px;
+}
+@media screen and (max-width:768px) {
+    .footer__news_wrapper_part_header{
+        width:100%;
+    }
+}
 .footer__news_part_text{
     font-size: 16px;
+}
+.footer__wrapper{
+    width:100vw;
+    justify-content: row;
+    flex-wrap: nowrap;
+    display: flex;
+    justify-content: space-between;
+}
+@media screen and (max-width:768px) {
+    .footer__wrapper{
+        flex-direction: column-reverse;
+    }
+    
 }
 img.footer__logo{
     display: flex;
     max-width: 857px;
     width:60%;
 }
+@media screen and (max-width:768px) {
+    img.footer__logo{
+            width:100%;
+        }
+    }
 .footer__nav{
     display: flex;
+    width:14%;
+    min-width: 200px;
 }
+@media screen and (max-width:768px) {
+    .footer__nav{
+            width:100%;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 ul.footer__nav_list{
     list-style: none;
     gap:16px;
@@ -61,11 +113,16 @@ ul.footer__nav_list{
 li.footer__nav_list_part{
     font-weight: 400;
     font-style: Regular;
-    font-size: 24px;
+    font-size: 20px;
     display: flex;
     margin-bottom: 16px;
     a{
         text-decoration: none;
         color:#000000;
+    }
+}
+@media screen and (max-width:768px) {
+    li.footer__nav_list_part{
+        justify-content: center;
     }
 }

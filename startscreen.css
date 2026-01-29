@@ -37,8 +37,13 @@ ul.header__nav__list{
     }
 }
 .start-screen{
-    padding-top: 30vh;
+    padding-top: 20vh;
     flex-wrap: wrap;
+}
+@media screen and (max-width:1024px) {
+    .start-screen{
+        padding-top: 12vh;
+    }
 }
 .start-screen__header{
     display: flex;
@@ -46,14 +51,14 @@ ul.header__nav__list{
     font-family: Redcollar;
     font-weight: 400;
     font-style: Regular;
-    font-size: 80px;
+    font-size: 60px;
     justify-content: center;
     text-align: center;
     letter-spacing: 0%;
     margin-bottom: 3vh;
 }
 button.start-screen__cases{
-    width:148px;
+    width:136px;
     height:40px;
     border-radius: 12px;
     background: #E3032E;
@@ -74,11 +79,27 @@ footer.start-screen__footer{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+    flex-wrap: wrap;
+}
+@media screen and (max-width:1024px) {
+    footer.start-screen__footer{
+        justify-content: center;
+    }
+    h1.start-screen__header{
+        font-size: 40px;
+    }
+}
+@media screen and (max-width:768px) {
+    footer.start-screen__footer{
+        display: none;
+    }
+    h1.start-screen__header{
+        font-size: 30px;
+    }
 }
 h2{
         font-weight: 400;
-        font-size: 32px;
+        font-size: 28px;
         max-width: 580px;
     }
     .start-screen__footer_projects{
@@ -96,6 +117,7 @@ h2{
         font-size: 16px;
         color:#000000CC;
         width:100%;
+        
     }
     .start-screen__footer_projects-slider{
         justify-content: center;
