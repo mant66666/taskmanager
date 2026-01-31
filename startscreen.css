@@ -149,6 +149,14 @@ h2{
         flex-wrap: wrap;
         justify-content: right;
     }
+    .start-screen__footer_projects-slider_slide-nav{
+        display: flex;
+        flex-direction: row;
+        width:100%;
+        justify-content: space-between;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
     img.start-screen__footer_projects-slider_slide_img-people{
         margin-top: 47px;
         display: flex;
@@ -159,9 +167,12 @@ h2{
         display: flex;
         margin: auto;
     }
-    img.start-screen__footer_projects-slider_slide_img-arrow{
+    img.start-screen__footer_projects-slider_slide-nav_img-arrow{
         width:24px;
         height:24px;
         display: flex;
         margin-bottom: 20px;
+    }
+    .hidden{
+        display: none;
     }
