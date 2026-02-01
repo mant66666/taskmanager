@@ -182,14 +182,13 @@ p.cases__projects_case_tegs_teg{
     width:100%;
     height: 100vh; 
     z-index: 2;
-    
+    display: none;
     background: #000000CC;
     overscroll-behavior: contain;
 }
 
 .cases__screen_main {
     width: 60vw;
-    display: block;
     margin: 0 auto;
     height:90vh;
     margin-top: 5vh;
@@ -198,7 +197,7 @@ p.cases__projects_case_tegs_teg{
     background-position: 50%;
     border-radius: 32px; 
     flex-direction: column;
-    display: flex;
+    display: none;
 }
 @media screen and (max-width:768px){
     .cases__screen_main {
@@ -232,14 +231,16 @@ p.cases__projects_case_tegs_teg{
 }
 
 .close-btn-storis{
-    margin-right: -2vw;
-    margin-left: auto;
-    margin-top: -12vh;
+    
+    margin-left: 62vw;
+    margin-bottom: 2vh;
     cursor: pointer;
     text-align: center;
     width: 24px;
     height: 24px;
     display: flex;
+    position: absolute;
+    z-index: 500;
 }
 @media screen and (max-width:768px){
     .close-btn-storis{

@@ -1,44 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const list = Array.from(document.querySelectorAll(".cases__icons_part"));
-    const storisWrapper = document.getElementById("cases__screen");
-    const imgList = [
-        "img/startscreen/actualCases/icons/samolet.svg",
-        "img/startscreen/actualCases/icons/prime.svg",
-        "img/startscreen/actualCases/icons/vkvideo.svg",
-        "img/startscreen/actualCases/icons/gismeteo.svg",
-        "img/startscreen/actualCases/icons/dodopizza.svg",
-        "img/startscreen/actualCases/icons/AAG.svg"
-    ];
+    const icons = Array.from(document.querySelectorAll(".cases__icons_part"));
+    const list = Array.from(document.querySelectorAll(".cases__screen_main"));
+    const modalWindow = document.querySelector(".cases__screen");
+    
     let currentIndex = 0;
+    let currentSlide = list[currentIndex];
     let autoPlayInterval = null;
     let currentAnimation = null;
-    let isPaused = false; 
-
-    let leftBtn = null;
-    let rightBtn = null;
-
-    function startAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-        autoPlayInterval = setInterval(() => {
-            if (rightBtn) rightButtonClick(); 
-        }, 3000);
-    }
-
-    function stopAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-    }
+    let isPaused = false;
 
     function AddFillMode() {
-        document.querySelectorAll(".cases__screen_main_storis-nav_part").forEach(span => {
-            span.style.background = '';
-            span.getAnimations().forEach(anim => anim.cancel());
+        list.forEach(slide => {
+            slide.querySelectorAll(".cases__screen_main_storis-nav_part").forEach(span => {
+                span.style.background = '';
+                span.getAnimations().forEach(anim => anim.cancel());
+            });
         });
 
-        const currentSpan = Array.from(document.querySelectorAll(".cases__screen_main_storis-nav_part"))[currentIndex];
+        const currentSpans = currentSlide.querySelectorAll(".cases__screen_main_storis-nav_part");
+        const currentSpan = currentSpans[currentIndex]; 
+
         if (currentSpan) {
             const spanWidth = currentSpan.offsetWidth;
-
-            currentSpan.style.backgroundImage = 'url(img/startscreen/whitebcg.jpeg)';
+            currentSpan.style.backgroundImage = 'url(img/startscreen/whitebcg.jpeg)'; 
             currentSpan.style.backgroundRepeat = 'no-repeat';
             currentSpan.style.backgroundSize = 'cover';
             currentSpan.style.backgroundPosition = `-${spanWidth}px 0`;
@@ -52,126 +36,93 @@ document.addEventListener("DOMContentLoaded", () => {
                 fill: 'none',
                 easing: 'linear'
             });
+
+            currentAnimation.onfinish = () => {
+                 if (!isPaused) rightButtonClick();
+            };
         }
     }
 
-    function leftButtonClick() {
+  
+
+    function stopAutoPlay() {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
         if (currentAnimation) currentAnimation.cancel();
-        stopAutoPlay();
-        startAutoPlay();
+    }
 
-        if (currentIndex !== 0) {
-            currentIndex -= 1;
-            AddFillMode();
-        }
-
-        let newSrc = imgList[currentIndex];
-        const screenMain = document.querySelector(".cases__screen_main");
-        if (screenMain) {
-            screenMain.style.backgroundImage = `url('${newSrc}')`;
-        }
+    function updateButtonsState() {
+        const leftBtn = currentSlide.querySelector(".leftButton");
         
-        setTimeout(() => {
-            isPaused = false;
-        }, 1);
-
         if (leftBtn) {
             if (currentIndex === 0) {
                 leftBtn.style.opacity = "0.1";
-                AddFillMode();
+                leftBtn.style.pointerEvents = "none"; 
             } else {
                 leftBtn.style.opacity = "1";
-                leftBtn.style.cursor = "pointer";
+                leftBtn.style.pointerEvents = "auto";
             }
+        }
+    }
+    function switchSlide(newIndex) {
+        stopAutoPlay();
+        currentSlide.style.display = "none";
+        currentIndex = newIndex;
+        currentSlide = list[currentIndex];
+        currentSlide.style.display = "flex";
+        
+        updateButtonsState();
+        AddFillMode();
+    }
+    function leftButtonClick() {
+        if (currentIndex > 0) {
+            switchSlide(currentIndex - 1);
         }
     }
 
     function rightButtonClick() {
-        if (currentAnimation) currentAnimation.cancel();
-        stopAutoPlay();
-        startAutoPlay();
-
-        if (currentIndex < imgList.length - 1) {
-            currentIndex += 1;
-            if (leftBtn) leftBtn.style.opacity = "1";
-            AddFillMode();
+        if (currentIndex < list.length - 1) {
+            switchSlide(currentIndex + 1);
         } else {
-            currentIndex = 0;
-            if (leftBtn) leftBtn.style.opacity = "0.1";
-            AddFillMode();
-        }
-
-        let newSrc = imgList[currentIndex];
-        const screenMain = document.querySelector(".cases__screen_main");
-        if (screenMain) {
-            screenMain.style.backgroundImage = `url('${newSrc}')`;
+            closeModal(); 
         }
     }
-    list.forEach((k) => {
-        k.addEventListener("click", () => {
-            currentIndex = list.indexOf(k);
-            document.querySelector("body").style.overflow="hidden";
-            storisWrapper.classList.add("cases__screen");
 
-            storisWrapper.innerHTML = `
-                <div class="cases__screen_main" style="background-image: url('${imgList[currentIndex]}');">
-                    <div class="cases__screen_main">
-                    <div class="cases__screen_main_storis-nav">
-                        <span class="cases__screen_main_storis-nav_part"></span>
-                        <span class="cases__screen_main_storis-nav_part"></span>
-                        <span class="cases__screen_main_storis-nav_part"></span>
-                        <span class="cases__screen_main_storis-nav_part"></span>
-                        <span class="cases__screen_main_storis-nav_part"></span>
-                        <span class="cases__screen_main_storis-nav_part"></span>
-                    </div>
-                    <img class="close-btn-storis" src="img/startscreen/close.svg">
-                    <div class="cases__screen_main_buttons">
-                        <button class="cases__screen_main_buttons_part" id="leftButton">
-                            <img src="img/startscreen/arrow.svg" alt="<" style="transform: rotate(180deg);" class="cases__screen_main_buttons_part_img">
-                        </button>
-                        <button class="cases__screen_main_buttons_part" id="rightButton">
-                            <img src="img/startscreen/arrow.svg" alt=">" class="cases__screen_main_buttons_part_img">
-                        </button>
-                    </div>
-                    <button class="open-btn-storis" id="openCase">Перейти</button>
-                </div>
-                </div>
-            `;
+    function closeModal() {
+        stopAutoPlay();
+        modalWindow.style.display = "none";
+        currentSlide.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
 
-            leftBtn = document.getElementById("leftButton");
-            rightBtn = document.getElementById("rightButton");
-            const btnClose = storisWrapper.querySelector(".close-btn-storis");
+    modalWindow.addEventListener('click', (event) => {
+        const target = event.target;
 
-            if (leftBtn) {
-                if (currentIndex === 0) {
-                    leftBtn.style.opacity = "0.1";
-                } else {
-                    leftBtn.style.opacity = "1";
-                }
-                leftBtn.addEventListener("click", leftButtonClick);
-            }
+        if (target.closest('.leftButton') || target.closest('#leftButton')) {
+            leftButtonClick();
+            return;
+        }
 
-            if (rightBtn) {
-                rightBtn.addEventListener("click", rightButtonClick);
-            }
+        if (target.closest('.rightButton') || target.closest('#rightButton')) {
+            rightButtonClick();
+            return;
+        }
+        if (target.closest('.close-btn-storis')) {
+            closeModal();
+            return;
+        }
+    });
 
-            startAutoPlay();
+    icons.forEach((icon, index) => {
+        icon.addEventListener("click", () => {
+            currentIndex = index; 
+            list.forEach(slide => slide.style.display = 'none');
+         
+            currentSlide = list[currentIndex];       
+            modalWindow.style.display = "flex";
+            currentSlide.style.display = "flex";
+            document.body.style.overflow = "hidden";
+            updateButtonsState();
             AddFillMode();
-
-            storisWrapper.style.display = "block";
-
-            if (btnClose) {
-                btnClose.addEventListener("click", () => {
-                    if (currentAnimation) currentAnimation.cancel();
-                    stopAutoPlay();  
-                    storisWrapper.innerHTML = "";
-                    storisWrapper.classList.remove("cases__screen");
-                    storisWrapper.style.display = "none";
-                    document.querySelector("body").style.overflow="auto";
-                    leftBtn = null;
-                    rightBtn = null;
-                });
-            }
         });
     });
 });
