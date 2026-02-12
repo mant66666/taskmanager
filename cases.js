@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateButtonsState() {
         const leftBtn = currentSlide.querySelector(".leftButton");
-        
         if (leftBtn) {
             if (currentIndex === 0) {
                 leftBtn.style.opacity = "0.1";
@@ -68,8 +67,16 @@ document.addEventListener("DOMContentLoaded", () => {
         currentSlide.style.display = "none";
         currentIndex = newIndex;
         currentSlide = list[currentIndex];
+        currentSlide.style.opacity=0;
         currentSlide.style.display = "flex";
-        
+        currentSlide.animate([
+            { opacity:0},
+            { opacity:1},
+            ], {
+                duration: 300,
+                fill: 'forwards',
+                easing: 'linear'
+            });
         updateButtonsState();
         AddFillMode();
     }
@@ -97,26 +104,47 @@ document.addEventListener("DOMContentLoaded", () => {
     modalWindow.addEventListener('click', (event) => {
         const target = event.target;
 
-        if (target.closest('.leftButton') || target.closest('#leftButton')) {
+        if (target.closest('.leftButton')) {
             leftButtonClick();
             return;
         }
 
-        if (target.closest('.rightButton') || target.closest('#rightButton')) {
+        if (target.closest('.rightButton')) {
             rightButtonClick();
             return;
         }
-        if (target.closest('.close-btn-storis')) {
+        if (target.closest('.cases__screen_main_closeButton')) {
             closeModal();
             return;
         }
     });
 
+    let dragStart = false;
+    let dragCoord = [0, 0];
+    modalWindow.addEventListener('mousedown', e => {
+        dragStart = true;
+        dragCoord[0] = e.pageX;
+    })
+
+    modalWindow.addEventListener('mouseup', e => {
+        dragStart = false;
+        dragCoord[1] = e.pageX;
+        if(Math.abs((dragCoord[0] - dragCoord[1])) > 100) {
+            if(dragCoord[0] < dragCoord[1]) {
+               
+                
+                leftButtonClick();
+            } else {
+                
+                rightButtonClick();
+            }
+        }
+    })
+
     icons.forEach((icon, index) => {
         icon.addEventListener("click", () => {
             currentIndex = index; 
             list.forEach(slide => slide.style.display = 'none');
-         
             currentSlide = list[currentIndex];       
             modalWindow.style.display = "flex";
             currentSlide.style.display = "flex";
