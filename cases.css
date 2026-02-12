@@ -157,8 +157,47 @@
     height: 100vh;
     z-index: 2;
     display: none;
-    background: #000000CC;
+    background-color: #000000CC;
     overscroll-behavior: contain; }
+    .cases__screen_closeButton {
+      position: relative;
+      margin-left: 95vw;
+      margin-top: 20px;
+      cursor: pointer;
+      text-align: center;
+      width: 24px;
+      height: 24px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      position: absolute;
+      z-index: 30; }
+      @media screen and (max-width: 768px) {
+        .cases__screen_closeButton {
+          margin-left: 95vw; } }
+    .cases__screen_buttons {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: 70vw;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      margin-left: 15vw;
+      -ms-flex-item-align: center;
+          align-self: center;
+      position: absolute; }
+      .cases__screen_buttons_part {
+        width: 24px;
+        height: 24px;
+        background-color: 0;
+        opacity: 1;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer; }
+        @media screen and (max-width: 768px) {
+          .cases__screen_buttons_part {
+            display: none; } }
     .cases__screen_main {
       width: 620px;
       margin: 0 auto;
@@ -203,44 +242,6 @@
           display: flex;
           height: 8px;
           width: 100%; }
-      .cases__screen_main_closeButton {
-        margin-left: 62vw;
-        margin-bottom: 2vh;
-        cursor: pointer;
-        text-align: center;
-        width: 24px;
-        height: 24px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        position: absolute;
-        z-index: 500; }
-        @media screen and (max-width: 768px) {
-          .cases__screen_main_closeButton {
-            margin-left: 95vw; } }
-      .cases__screen_main_buttons {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        width: 70vw;
-        -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
-                justify-content: space-between;
-        justify-self: center;
-        -ms-flex-item-align: center;
-            align-self: center;
-        margin-top: 40vh; }
-        .cases__screen_main_buttons_part {
-          width: 24px;
-          height: 24px;
-          background-color: 0;
-          opacity: 1;
-          background-color: transparent;
-          border: 0;
-          cursor: pointer; }
-          @media screen and (max-width: 768px) {
-            .cases__screen_main_buttons_part {
-              display: none; } }
       .cases__screen_main_open-btn-storis {
         cursor: pointer;
         text-align: center;

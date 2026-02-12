@@ -111,14 +111,51 @@
         }
     }
     &__screen{
-        position: fixed; top: 0; left: 0;
+        position: fixed;
+        top: 0; 
+        left: 0;
         backdrop-filter: blur(40px);
         width:100%;
         height: 100vh; 
         z-index: 2;
         display: none;
-        background: #000000CC;
+        background-color: #000000CC;
         overscroll-behavior: contain;
+        &_closeButton{
+            position: relative;
+            margin-left: 95vw;
+            margin-top: 20px;
+            cursor: pointer;
+            text-align: center;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            position: absolute;
+            z-index: 30;
+            @media screen and (max-width:768px){
+                margin-left: 95vw;
+            }
+            }
+        &_buttons{
+            display: flex;
+            width:70vw;
+            justify-content: space-between;
+            margin-left: 15vw;
+            align-self: center;
+            position: absolute;
+            &_part{
+                width: 24px;
+                height: 24px;
+                background-color: 0;
+                opacity: 1;
+                background-color: transparent;
+                border: 0;
+                cursor: pointer;
+                @media screen and (max-width:768px){
+                    display: none;
+                }
+                }
+            }
         &_main{
             width: 620px;
             margin: 0 auto;
@@ -152,40 +189,6 @@
                     width:100%;
                 }
             }
-            &_closeButton{
-                margin-left: 62vw;
-                margin-bottom: 2vh;
-                cursor: pointer;
-                text-align: center;
-                width: 24px;
-                height: 24px;
-                display: flex;
-                position: absolute;
-                z-index: 500;
-                @media screen and (max-width:768px){
-                        margin-left: 95vw;
-                    }
-            }
-            &_buttons{
-                display: flex;
-                width:70vw;
-                justify-content: space-between;
-                justify-self: center;
-                align-self: center;
-                margin-top: 40vh;
-                &_part{
-                    width: 24px;
-                    height: 24px;
-                    background-color: 0;
-                    opacity: 1;
-                    background-color: transparent;
-                    border: 0;
-                    cursor: pointer;
-                    @media screen and (max-width:768px){
-                        display: none;
-                    }
-                }
-            }
             &_open-btn-storis{
                 cursor: pointer;
                 text-align: center;
@@ -203,8 +206,7 @@
                 border: 0;
                 font-weight: 500;
                 font-size: 24px;
-                margin-bottom: 8vh;
-                
+                margin-bottom: 8vh;    
             }
         }
     }

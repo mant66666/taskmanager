@@ -43,8 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-  
-
     function stopAutoPlay() {
         if (autoPlayInterval) clearInterval(autoPlayInterval);
         if (currentAnimation) currentAnimation.cancel();
@@ -62,33 +60,86 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
-    function switchSlide(newIndex) {
-        stopAutoPlay();
-        currentSlide.style.display = "none";
-        currentIndex = newIndex;
-        currentSlide = list[currentIndex];
-        currentSlide.style.opacity=0;
-        currentSlide.style.display = "flex";
-        currentSlide.animate([
-            { opacity:0},
-            { opacity:1},
-            ], {
-                duration: 300,
-                fill: 'forwards',
-                easing: 'linear'
-            });
-        updateButtonsState();
-        AddFillMode();
+   function switchSlide(newIndex,direction) {
+    stopAutoPlay();
+    if (direction==="right"){
+        currentSlide.style.transform = "translateX(20vw)";
+        let currentAnimation1 = currentSlide.animate([
+            { transform: "scaleX(1) translateX(20vw)", opacity: 1, offset: 0},
+            { transform: "scaleX(0.3) translateX(50vw)", opacity: 0, offset: 1}
+        ], {
+            duration: 400,
+            fill: 'none',
+            easing: 'linear'
+        });
+        
+        let nextSlide = list[newIndex];
+        nextSlide.style.display = "flex"; 
+        nextSlide.style.transform = "scaleX(0.5) translateX(0vw)";
+        nextSlide.style.opacity = "0";
+        let nextAnimation = nextSlide.animate([
+            { transform: "scaleX(0.5) translateX(0vw)", opacity: 0},
+            { transform: "scaleX(1) translateX(-25vw)", opacity: 1},
+        ], {
+            duration: 400,
+            fill: 'none',
+            easing: 'linear'
+        });
+        Promise.all([currentAnimation1.finished, nextAnimation.finished]).then(() => {
+            currentSlide.style.display = "none";
+            currentSlide.style.transform = "translateX(0vw)";
+            nextSlide.style.transform = "scaleX(1) translateX(0)";
+            nextSlide.style.opacity = "1";
+            currentIndex = newIndex;
+            currentSlide = nextSlide;
+            updateButtonsState();
+            AddFillMode();
+        });
     }
+    if (direction==="left"){
+        currentSlide.style.transform = "translateX(-20vw)";
+        let currentAnimation1 = currentSlide.animate([
+            { transform: "scaleX(1) translateX(-20vw)", opacity: 1, offset: 0},
+            { transform: "scaleX(0.3) translateX(-50vw)", opacity: 0, offset: 1}
+        ], {
+            duration: 400,
+            fill: 'none',
+            easing: 'linear'
+        });
+        
+        let nextSlide = list[newIndex];
+        nextSlide.style.display = "flex"; 
+        nextSlide.style.transform = "scaleX(0.5) translateX(0vw)";
+        nextSlide.style.opacity = "0";
+        let nextAnimation = nextSlide.animate([
+            { transform: "scaleX(0.5) translateX(0vw)", opacity: 0},
+            { transform: "scaleX(1) translateX(25vw)", opacity: 1},
+        ], {
+            duration: 400,
+            fill: 'none',
+            easing: 'linear'
+        });
+        Promise.all([currentAnimation1.finished, nextAnimation.finished]).then(() => {
+            currentSlide.style.display = "none";
+            currentSlide.style.transform = "translateX(0vw)";
+            nextSlide.style.transform = "scaleX(1) translateX(0)";
+            nextSlide.style.opacity = "1";
+            currentIndex = newIndex;
+            currentSlide = nextSlide;
+            updateButtonsState();
+            AddFillMode();
+        });
+    }
+}
     function leftButtonClick() {
         if (currentIndex > 0) {
-            switchSlide(currentIndex - 1);
+            switchSlide(currentIndex - 1,"left");
         }
     }
 
     function rightButtonClick() {
         if (currentIndex < list.length - 1) {
-            switchSlide(currentIndex + 1);
+            switchSlide(currentIndex + 1,"right");
         } else {
             closeModal(); 
         }
@@ -113,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
             rightButtonClick();
             return;
         }
-        if (target.closest('.cases__screen_main_closeButton')) {
+        if (target.closest('.cases__screen_closeButton')) {
             closeModal();
             return;
         }
