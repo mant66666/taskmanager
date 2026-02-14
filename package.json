@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/mant66666/interpool#readme",
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.0",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
     "autoprefixer": "^10.4.24",
     "babel-loader": "^10.0.0",
     "copy-webpack-plugin": "^13.0.1",

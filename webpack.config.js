@@ -1,13 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js', // точка входа
+  mode: 'development',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].[contenthash].js',
+    filename: 'bundle.js',
     clean: true
   },
   module: {
@@ -15,9 +15,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        use: 'babel-loader'
       },
       {
         test: /\.scss$/,
@@ -33,41 +31,22 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           'css-loader'
         ]
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'images/[name].[hash][ext]'
-        }
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './dev/index.html', // твой HTML из папки dev
+      template: './dev/index.html',
       filename: 'index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { 
-          from: 'dev/img', 
-          to: 'img',
-          noErrorOnMissing: true 
-        }
-      ]
+      filename: 'styles.css'
     })
   ],
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist')
-    },
+    static: './dist',
     port: 3000,
-    hot: true,
     open: true,
-    compress: true
+    hot: true
   }
 };

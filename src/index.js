@@ -5,3 +5,4 @@ import '../dev/startscreen.css';
 import '../dev/style.css';
 import '../dev/cases.js';
 import '../dev/startscreen.js';
+console.log('Project started');
