@@ -1,52 +1,92 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-    clean: true
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: 'babel-loader'
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader'
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './dev/index.html',
-      filename: 'index.html'
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'styles.css'
-    })
-  ],
-  devServer: {
-    static: './dist',
-    port: 3000,
-    open: true,
-    hot: true
-  }
+    mode: "development",
+    entry: "./src/index.js",
+    output: {
+        filename: "index.js",
+        path: path.resolve(__dirname, "dist"),
+        clean: true,
+    },
+    devtool: "inline-source-map",
+    devServer: {
+        static: {
+            directory: path.join(__dirname, "dist"),
+        },
+        hot: true,
+        liveReload: true,
+        open: true,
+        port: 3000,
+        watchFiles: ["src/**/*"],
+    },
+    performance: {
+        maxAssetSize: 500000, // 500 KB
+        maxEntrypointSize: 500000,
+        hints: 'warning'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                },
+            },
+            {
+                test: /\.(scss)$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [autoprefixer],
+                            },
+                        },
+                    },
+                    "sass-loader",
+                ],
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: "asset/resource",
+                generator: {
+                    filename: "assets/fonts/[name][ext]",
+                },
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+            filename: "index.html",
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { 
+                    from: "src/assets", 
+                    to: "assets",
+                    noErrorOnMissing: true
+                },
+            ],
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash].css",
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { 
+                    from: "src/assets/img", 
+                    to: "img", // копирует сразу в папку img
+                    noErrorOnMissing: true
+                },
+            ],
+        }),
+    ],
 };
