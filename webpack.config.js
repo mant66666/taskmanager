@@ -28,6 +28,16 @@ module.exports = {
         maxEntrypointSize: 500000,
         hints: 'warning'
     },
+    resolve: {
+        alias: {
+            '@assets': path.resolve(__dirname, 'src/assets'),
+            '@styles': path.resolve(__dirname, 'src/assets/styles'),
+            '@js': path.resolve(__dirname, 'src/assets/js'),
+            '@js': path.resolve(__dirname, 'src/assets/js'),
+            '@js': path.resolve(__dirname, 'src/assets/js'),
+            
+        }
+    },
     module: {
         rules: [
             {
@@ -41,7 +51,9 @@ module.exports = {
                 test: /\.(scss)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
+
                     "css-loader",
+
                     {
                         loader: "postcss-loader",
                         options: {
@@ -50,6 +62,7 @@ module.exports = {
                             },
                         },
                     },
+
                     "sass-loader",
                 ],
             },
@@ -60,6 +73,14 @@ module.exports = {
                     filename: "assets/fonts/[name][ext]",
                 },
             },
+            {
+                test: /\.(png|jpg|jpeg|gif|svg)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/img/[name].[ext]'
+                }
+            }
+
         ],
     },
     plugins: [
@@ -79,14 +100,6 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].[contenthash].css",
         }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { 
-                    from: "src/assets/img", 
-                    to: "img", // копирует сразу в папку img
-                    noErrorOnMissing: true
-                },
-            ],
-        }),
+
     ],
 };
