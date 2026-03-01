@@ -22,7 +22,7 @@ export default function cases(){
 
         if (currentSpan) {
             const spanWidth = currentSpan.offsetWidth;
-            currentSpan.style.backgroundImage = 'url(img/startscreen/whitebcg.jpeg)'; 
+            currentSpan.style.backgroundImage = 'url(assets/img/startscreen/whitebcg.jpeg)'; 
             currentSpan.style.backgroundRepeat = 'no-repeat';
             currentSpan.style.backgroundSize = 'cover';
             currentSpan.style.backgroundPosition = `-${spanWidth}px 0`;

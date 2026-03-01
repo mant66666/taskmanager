@@ -1,5 +1,5 @@
-import startScreen from '@assets/js/startscreen';
-import cases from '@assets/js/cases';
+import startScreen from '@js/startscreen';
+import cases from '@js/cases';
 
 
 import '@assets/styles/main.scss';

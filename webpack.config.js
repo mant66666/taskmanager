@@ -31,11 +31,9 @@ module.exports = {
     resolve: {
         alias: {
             '@assets': path.resolve(__dirname, 'src/assets'),
-            '@styles': path.resolve(__dirname, 'src/assets/styles'),
-            '@js': path.resolve(__dirname, 'src/assets/js'),
-            '@js': path.resolve(__dirname, 'src/assets/js'),
-            '@js': path.resolve(__dirname, 'src/assets/js'),
-            
+            '@base': path.resolve(__dirname, 'src/assets/styles/base'),
+            '@blocks': path.resolve(__dirname, 'src/assets/styles/blocks'),
+            '@js': path.resolve(__dirname, 'src/assets/js'),            
         }
     },
     module: {
@@ -85,7 +83,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
+            template: "./public/index.html",
             filename: "index.html",
         }),
         new CopyWebpackPlugin({
