@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar__logo">
+            <span class="sidebar__logo-text">📋 TASK MANAGER</span>
+        </div>
+        <nav class="sidebar__nav">
+            <div class="sidebar__nav-item sidebar__nav-item--active">
+                <span class="sidebar__nav-icon">📊</span>
+                <span class="sidebar__nav-text">Мои задачи</span>
+            </div>
+            <div class="sidebar__nav-item">
+                <span class="sidebar__nav-icon">📈</span>
+                <span class="sidebar__nav-text">Аналитика</span>
+            </div>
+        </nav>
+
+        <div class="sidebar__user">
+            <div class="sidebar__user-avatar">👤</div>
+            <div class="sidebar__user-info">
+                <div class="sidebar__user-name">Алексей Смирнов</div>
+                <div class="sidebar__user-email">alex@example.com</div>
+            </div>
+        </div>
+    </div>
+    <main class="main">
+        <header class="header">
+            <span class="header-text">Мои задачи</span>
+        </header>
+        <div class="project-header">
+            <div class="filters">
+                <div class="filters__item">
+                    <input type="checkbox" class="filters__checkbox completed" name="completed">
+                    <label class="filters__label" for="filter-my">Выполненные</label>
+                </div>
+                <div class="filters__item">
+                    <input type="checkbox" class="filters__checkbox active" name="active">
+                    <label class="filters__label" for="filter-urgent">Активные</label>
+                </div>
+            </div>
+        </div>
+        <div class="table__tasks">
+            
+        </div>
+        <button class="table__tasks_add">+</button>
+        <div class="task-form-overlay">
+            <div class="task-form">
+                <div class="task-form__header">
+                    <h3 class="task-form__title">Добавить задачу</h3>
+                    <button class="task-form__close">✕</button>
+                </div>
+                <div class="task-form__body">
+                    <div class="task-form__group">
+                        <label class="task-form__label">Название задачи</label>
+                        <input type="text" class="task-form__input" id="task-name" placeholder="Введите название">
+                    </div>
+                    <div class="task-form__group">
+                        <label class="task-form__label">Описание</label>
+                        <textarea class="task-form__textarea" id="task-desc" placeholder="Введите описание" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="task-form__footer">
+                    <button class="task-form__btn task-form__btn--submit">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
