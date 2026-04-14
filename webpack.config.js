@@ -21,12 +21,7 @@ module.exports = {
         liveReload: true,
         open: true,
         port: 3000,
-        watchFiles: ["src/**/*"],
-    },
-    performance: {
-        maxAssetSize: 500000, // 500 KB
-        maxEntrypointSize: 500000,
-        hints: 'warning'
+        watchFiles: ["src/**/*","public/*"],
     },
     resolve: {
         alias: {
@@ -34,7 +29,8 @@ module.exports = {
             '@base': path.resolve(__dirname, 'src/assets/styles/base'),
             '@blocks': path.resolve(__dirname, 'src/assets/styles/blocks'),
             '@js': path.resolve(__dirname, 'src/assets/js'),            
-        }
+        },
+        extensions: ['.js', '.scss', '.css']
     },
     module: {
         rules: [
@@ -45,13 +41,12 @@ module.exports = {
                     loader: "babel-loader",
                 },
             },
+
             {
                 test: /\.(scss)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-
                     "css-loader",
-
                     {
                         loader: "postcss-loader",
                         options: {
@@ -60,8 +55,15 @@ module.exports = {
                             },
                         },
                     },
-
-                    "sass-loader",
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            api: "modern", 
+                            sassOptions: {
+                                silenceDeprecations: ['legacy-js-api'],
+                            },
+                        },
+                    },
                 ],
             },
             {
@@ -78,7 +80,6 @@ module.exports = {
                     filename: 'assets/img/[name].[ext]'
                 }
             }
-
         ],
     },
     plugins: [
@@ -96,7 +97,7 @@ module.exports = {
             ],
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[contenthash].css",
+            filename: "styles.css",
         }),
 
     ],
