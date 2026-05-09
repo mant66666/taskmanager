@@ -1,31 +1,7 @@
-import  {AddList}  from '@js/addItem.js';
-import { loadTasks } from '@js/addItem.js';
-import  {filterEvents}  from '@js/filterEvents.js';
-import  {editDeleteTasks}  from '@js/editDeleteTasks.js';
+import { createRoot } from 'react-dom/client';
+import App from './App';
 import '@assets/styles/main.scss';
-document.addEventListener("DOMContentLoaded", () => {
-    AddList();    
-    filterEvents();
-    editDeleteTasks(); 
-    const filter = localStorage.getItem("filter")? localStorage.getItem("filter"):"";
-    if (filter === "completed") {
-        loadTasks("completed", true);
-    } else if (filter === "active") {
-        loadTasks("completed", false);
-    } else {
-        loadTasks();
-    }
-});
-window.addEventListener('storage', () => {
-    const filter = new URL(window.location.href).searchParams.get("filter");
-    if (filter === "completed") {
-        loadTasks("completed", true);
-    } else if (filter === "active") {
-        loadTasks("completed", false);
-    } else {
-        loadTasks();
-    }
-    window.location.reload();
-});
 
+const container = document.getElementById('root');
 
+createRoot(container).render(<App />);

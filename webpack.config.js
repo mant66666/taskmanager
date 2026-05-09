@@ -19,7 +19,7 @@ module.exports = {
         },
         hot: true,
         liveReload: true,
-        open: true,
+        open: false,
         port: 3000,
         watchFiles: ["src/**/*","public/*"],
     },
@@ -28,17 +28,27 @@ module.exports = {
             '@assets': path.resolve(__dirname, 'src/assets'),
             '@base': path.resolve(__dirname, 'src/assets/styles/base'),
             '@blocks': path.resolve(__dirname, 'src/assets/styles/blocks'),
-            '@js': path.resolve(__dirname, 'src/assets/js'),            
         },
-        extensions: ['.js', '.scss', '.css']
+        extensions: ['.js', '.jsx', '.scss', '.css']
     },
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            [
+                                "@babel/preset-react",
+                                {
+                                    runtime: "automatic",
+                                },
+                            ],
+                        ],
+                    },
                 },
             },
 
