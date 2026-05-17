@@ -3,10 +3,13 @@ import { Sidebar } from './components/Sidebars/Sidebar';
 import { Filters } from './components/Filters/Filters';
 import { Tasks } from './components/Tasks/Tasks';
 import Modal from './components/Modals/Modal';
+
 export default function App() {
     const [tasks, setTasks] = useState([]);
     const [filter, setFilter] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editTask, setEditTask] = useState(null);
+
     useEffect(() => {
         const savedTasks = localStorage.getItem('tasks');
         const savedFilter = localStorage.getItem('filter');
@@ -36,13 +39,16 @@ export default function App() {
         }
     }, [filter]);
 
-    function openModal() {
+    function openModal(taskToEdit) {
+        const task = taskToEdit && taskToEdit.id ? taskToEdit : null;
+
+        setEditTask(task);
         setIsModalOpen(true);
     }
-    function addTask(title,description) {
-
+    
+    function addTask(title, description, chosenExecutors) {
         if (!title.trim() && !description.trim()) {
-            return;
+            return false;
         }
 
         const newTask = {
@@ -50,11 +56,30 @@ export default function App() {
             title: title.trim(),
             text: description.trim(),
             completed: false,
+            executors: chosenExecutors,
         };
 
-        setTasks([...tasks, newTask]);
+        setFilter('');
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+        return true;
     }
 
+    function editTasks(id, title, text){
+        const newTasks = tasks.map((task) => {
+            if (task.id === id) {
+                return {
+                    ...task,
+                    title,
+                    text,
+                };
+            }
+            
+            return task;
+        });
+
+        setTasks(newTasks);
+        setEditTask(null);
+    }
     return (
         <>
             <Sidebar />
@@ -71,7 +96,13 @@ export default function App() {
                 <Tasks tasks={tasks} filter={filter} openModal={openModal} setTasks={setTasks}/>
 
                 {isModalOpen && (
-                    <Modal setIsModalOpen={setIsModalOpen} addTask={addTask}/>
+                    <Modal
+                        setIsModalOpen={setIsModalOpen}
+                        addTask={addTask}
+                        taskToEdit={editTask || null}
+                        editTasks={editTasks}
+                        setEditTask={setEditTask}
+                    />
                 )}
             </main>
         </>

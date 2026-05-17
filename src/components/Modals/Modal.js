@@ -1,34 +1,73 @@
 import { useEffect, useState } from 'react';
+import Executors from '../Executors/Executors';
     
 export default function Modal(props){
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [chosenExecutors, setChosenExecutors] = useState([]);
 
-    function OnClose(event) {
-        event.preventDefault();
+    function closeModal() {
         props.setIsModalOpen(false);
+        props.setEditTask(null);
         setTitle('');
         setDescription('');
-        props.addTask(title,description);
+        setChosenExecutors([]);
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        if (!title.trim() && !description.trim()) {
+            return;
+        }
+        
+        if(props.taskToEdit){
+            props.editTasks(props.taskToEdit.id, title, description);
+        }
+        else{
+            const taskAdded = props.addTask(title, description, chosenExecutors);
+
+            if (!taskAdded) {
+                return;
+            }
+        }
+
+        closeModal();
     }
     
+
+
+    useEffect(() => {
+        if(props.taskToEdit) {
+            setTitle(props.taskToEdit.title);
+            setDescription(props.taskToEdit.text);
+            setChosenExecutors(props.taskToEdit.executors || []);
+        } else {
+            setTitle('');
+            setDescription('');
+            setChosenExecutors([]);
+        }
+    }, [props.taskToEdit]);
+
+
+
     return(
                 <div
                         className="task-form-overlay"
                         style={{ display: 'flex' }}
                         onClick={(event) => {
                             if (event.target === event.currentTarget) {
-                                OnClose();
+                                closeModal();
                             }
                         }}
                     >
-                        <form className="task-form" onSubmit={OnClose}>
+                        <form className="task-form" onSubmit={handleSubmit}>
                             <div className="task-form__header">
                                 <h3 className="task-form__title">Добавить задачу</h3>
                                 <button
                                     type="button"
                                     className="task-form__close"
-                                    onClick={OnClose}
+                                    onClick={closeModal}
                                 >
                                     ✕
                                 </button>
@@ -62,6 +101,11 @@ export default function Modal(props){
                                         onChange={(event) => setDescription(event.target.value)}
                                     />
                                 </div>
+
+                                <Executors
+                                    chosenExecutors={chosenExecutors}
+                                    setChosenExecutors={setChosenExecutors}
+                                />
                             </div>
 
                             <div className="task-form__footer">

@@ -1,6 +1,27 @@
 import Task from "./Task"
 export function Tasks(props){
-    let FilteredTasks=props.tasks.filter((task) => {
+
+    function deleteTask(id) {
+        const newTasks = props.tasks.filter((task) => task.id !== id);
+        props.setTasks(newTasks);
+    } 
+
+    function toggleTask(id) {
+        const newTasks = props.tasks.map((task) => {
+            if (task.id === id) {
+                return {
+                    ...task,
+                    completed: !task.completed,
+                };
+            }
+
+            return task;
+        });
+
+        props.setTasks(newTasks);
+    }
+
+    let FilteredTasks = props.tasks.filter((task) => {
             if (props.filter === 'completed') {
                 return task.completed;
             }
@@ -30,14 +51,14 @@ export function Tasks(props){
                         )}
 
                         {FilteredTasks.map((task) => (
-                            <Task key={task.id} id={task.id} title={task.title} text={task.text} completed={task.completed} toggleTask={props.toggleTask} tasks={props.tasks} setTasks={props.setTasks}/>
+                            <Task key={task.id} taskData={task} toggleTask={toggleTask} deleteTask={deleteTask} openModal={props.openModal} executors={props} />
                         ))}
                     </div>
 
                     <button
                         type="button"
                         className="table__tasks_add"
-                        onClick={props.openModal}
+                        onClick={() => props.openModal()}
                     >
                         +
                     </button>

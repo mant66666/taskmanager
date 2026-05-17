@@ -4,11 +4,12 @@ export function Filter(props){
                 <input
                     type="checkbox"
                     className="filters__checkbox"
-                    checked={props.filter === props.type}
-                    onChange={() => props.toggleFilter(props.type)}
+                    checked={props.checked}
+                    onChange={() => props.toggleFilter(props.name)}
+                    name={props.name}
                 />
                 <label className="filters__label">
-                    {props.name}
+                    {props.label}
                 </label>
         </div>
     )
