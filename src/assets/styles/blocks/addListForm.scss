@@ -5,8 +5,8 @@
   width: 100%;
   height: 100%;
   padding: 24px 16px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(17, 24, 32, 0.62);
+  backdrop-filter: blur(6px);
   display: none;
   justify-content: center;
   align-items: flex-start;
@@ -15,12 +15,13 @@
 }
 
 .task-form {
-  background: white;
-  border-radius: 24px;
+  background: #fbfcfb;
+  border-radius: 16px;
   width: 90%;
-  max-width: 500px;
+  max-width: 560px;
   max-height: calc(100vh - 48px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(220, 226, 230, 0.9);
+  box-shadow: 0 30px 70px rgba(17, 24, 32, 0.34);
   animation: slideIn 0.3s ease;
   overflow-y: auto;
   margin: auto 0;
@@ -40,100 +41,134 @@
 .task-form__header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid #dce2e6;
+  background: #ffffff;
+}
+
+.task-form__eyebrow {
+  margin: 0 0 6px;
+  color: #2f6f68;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .task-form__title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
+  font-size: 22px;
+  font-weight: 750;
+  color: #17202a;
   margin: 0;
 }
 
 .task-form__close {
-  background: none;
-  border: none;
-  font-size: 24px;
+  background: #f2f5f4;
+  border: 1px solid #dce2e6;
+  font-size: 20px;
   cursor: pointer;
-  color: #6b7280;
+  color: #5e6b75;
   transition: all 0.2s;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .task-form__close:hover {
-  background: #f3f4f6;
-  color: #1f2937;
+  background: #17202a;
+  border-color: #17202a;
+  color: #ffffff;
 }
 
 .task-form__body {
-  padding: 24px;
+  padding: 26px 28px;
 }
 
 .task-form__group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .task-form__label {
   display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+  font-size: 13px;
+  font-weight: 750;
+  color: #344250;
   margin-bottom: 8px;
 }
 
 .task-form__input,
 .task-form__textarea {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 12px 14px;
+  border: 1px solid #cfd8dd;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #17202a;
+  font-size: 15px;
   font-family: inherit;
-  transition: all 0.2s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.task-form__input::placeholder,
+.task-form__textarea::placeholder {
+  color: #8a969f;
 }
 
 .task-form__textarea {
+  min-height: 112px;
   resize: vertical;
+}
+
+.task-form__input:hover,
+.task-form__textarea:hover {
+  border-color: #aebbb8;
 }
 
 .task-form__input:focus,
 .task-form__textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #2f6f68;
+  background: #fbfdfc;
+  box-shadow: 0 0 0 4px rgba(47, 111, 104, 0.12);
 }
 
 .task-form__footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  padding: 20px 24px;
-  border-top: 1px solid #e5e7eb;
+  padding: 18px 28px 24px;
+  border-top: 1px solid #dce2e6;
+  background: #ffffff;
 }
 
 .task-form__btn {
-  padding: 8px 20px;
-  border-radius: 8px;
+  min-height: 42px;
+  padding: 0 22px;
+  border-radius: 10px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 750;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   border: none;
 }
 
 .task-form__btn--submit {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2f6f68;
   color: white;
 }
 
 .task-form__btn--submit:hover {
+  background: #285f59;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 12px 22px rgba(47, 111, 104, 0.26);
+}
+
+.task-form__btn--submit:active {
+  transform: translateY(0);
+  box-shadow: none;
 }

@@ -1,5 +1,7 @@
 import Task from "./Task"
+
 export function Tasks(props){
+    const user = JSON.parse(localStorage.getItem("user")) || {};
 
     function deleteTask(id) {
         const newTasks = props.tasks.filter((task) => task.id !== id);
@@ -21,7 +23,7 @@ export function Tasks(props){
         props.setTasks(newTasks);
     }
 
-    let FilteredTasks = props.tasks.filter((task) => {
+    const filteredTasks = props.tasks.filter((task) => {
             if (props.filter === 'completed') {
                 return task.completed;
             }
@@ -32,27 +34,69 @@ export function Tasks(props){
     
             return true;
         });
+
+    const participantTasks = filteredTasks.filter((task) =>
+        task.executors?.some((executor) => executor.name === user.name) && task.creator?.name !== user.name
+    );
+
+    const createdByMeTasks = filteredTasks.filter((task) =>
+        task.creator?.name === user.name
+    );
+
+
+    const hasVisibleTasks = participantTasks.length > 0 || createdByMeTasks.length > 0;
+
+    function renderTaskColumn(title, tasks) {
+        if (tasks.length === 0) {
+            return null;
+        }
+
+        return (
+            <section className="table__tasks-column">
+                <div className="table__tasks-column-header">
+                    <h2 className="table__tasks-column-title">{title}</h2>
+                    <span className="table__tasks-column-count">{tasks.length}</span>
+                </div>
+
+                {tasks.map((task) => (
+                    <Task key={task.id} taskData={task} toggleTask={toggleTask} deleteTask={deleteTask} openModal={props.openModal} executors={props} />
+                ))}
+            </section>
+        );
+    }
+
     return (
                 <div className="table__tasks-panel">
                     <div className="table__tasks">
-                        {FilteredTasks.length === 0 && (
-                            <div
-                                className="table__tasks-item"
-                                style={{
-                                    gridTemplateColumns: '1fr',
-                                    textAlign: 'center',
-                                    color: '#6b6d80',
-                                }}
-                            >
+                        {filteredTasks.length === 0 && (
+                            <div className="table__tasks-empty table__tasks-empty--wide">
                                 <p className="table__tasks-item_text">
                                     Задач пока нет. Добавь первую и поехали.
                                 </p>
                             </div>
                         )}
 
-                        {FilteredTasks.map((task) => (
-                            <Task key={task.id} taskData={task} toggleTask={toggleTask} deleteTask={deleteTask} openModal={props.openModal} executors={props} />
-                        ))}
+                        {filteredTasks.length > 0 && !hasVisibleTasks && (
+                            <div className="table__tasks-empty table__tasks-empty--wide">
+                                <p className="table__tasks-item_text">
+                                    Для этого пользователя задач пока нет.
+                                </p>
+                            </div>
+                        )}
+
+                        {hasVisibleTasks && (
+                            <div className="table__tasks-columns">
+                                {renderTaskColumn(
+                                    'Я участник',
+                                    participantTasks
+                                )}
+
+                                {renderTaskColumn(
+                                    'Созданы мной',
+                                    createdByMeTasks
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     <button

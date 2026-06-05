@@ -1,9 +1,9 @@
 .task-form__executors {
-  margin-top: 24px;
-  padding: 18px;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid #dce2e6;
+  border-radius: 12px;
+  background: #ffffff;
 }
 
 .task-form__executors-header {
@@ -22,34 +22,34 @@
 
 .task-form__executors-title {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+  font-size: 14px;
+  font-weight: 750;
+  color: #17202a;
 }
 
 .task-form__executors-count {
   min-width: 28px;
   height: 28px;
   padding: 0 8px;
-  border-radius: 999px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #667eea;
+  background: #2f6f68;
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .task-form__executors-toggle {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   border: none;
-  border-radius: 10px;
-  background: #e0e7ff;
-  color: #4338ca;
-  font-size: 18px;
+  border-radius: 9px;
+  background: #e7eeec;
+  color: #2f6f68;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
@@ -57,8 +57,8 @@
 }
 
 .task-form__executors-toggle:hover {
-  background: #c7d2fe;
-  color: #312e81;
+  background: #d7e2df;
+  color: #214f4a;
 }
 
 .task-form__executors-toggle--open {
@@ -67,28 +67,28 @@
 
 .task-form__executors-main {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   margin-top: 16px;
 }
 
 .task-form__executor {
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(199, 210, 254, 0.9);
-  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.08);
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: #f7f9f8;
+  border: 1px solid #dce2e6;
+  box-shadow: 0 8px 18px rgba(23, 32, 42, 0.05);
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .task-form__executor:hover {
-  transform: translateY(-2px);
-  border-color: #a5b4fc;
+  transform: translateY(-1px);
+  border-color: #bfcac6;
 }
 
 .task-form__executor--selected {
-  border-color: #01187c;
-  box-shadow: 0 22px 24px rgba(99, 102, 241, 0.18);
+  border-color: #2f6f68;
+  box-shadow: 0 12px 22px rgba(47, 111, 104, 0.16);
 }
 
 .task-form__executor-top {
@@ -101,16 +101,16 @@
 
 .task-form__executor-name {
   margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: #111827;
+  font-size: 14px;
+  font-weight: 750;
+  color: #17202a;
 }
 
 .task-form__executor-role {
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: #e0e7ff;
-  color: #4338ca;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: #e7eeec;
+  color: #2f6f68;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.2;
@@ -119,8 +119,8 @@
 
 .task-form__executor-company {
   margin: 0;
-  color: #4b5563;
-  font-size: 14px;
+  color: #5e6b75;
+  font-size: 13px;
 }
 
 @media (max-width: 640px) {

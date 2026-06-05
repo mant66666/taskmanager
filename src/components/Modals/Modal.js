@@ -22,7 +22,7 @@ export default function Modal(props){
         }
         
         if(props.taskToEdit){
-            props.editTasks(props.taskToEdit.id, title, description);
+            props.editTasks(props.taskToEdit.id, title, description,chosenExecutors);
         }
         else{
             const taskAdded = props.addTask(title, description, chosenExecutors);
@@ -63,7 +63,14 @@ export default function Modal(props){
                     >
                         <form className="task-form" onSubmit={handleSubmit}>
                             <div className="task-form__header">
-                                <h3 className="task-form__title">Добавить задачу</h3>
+                                <div>
+                                    <p className="task-form__eyebrow">
+                                        {props.taskToEdit ? 'Редактирование' : 'Новая запись'}
+                                    </p>
+                                    <h3 className="task-form__title">
+                                        {props.taskToEdit ? 'Изменить задачу' : 'Добавить задачу'}
+                                    </h3>
+                                </div>
                                 <button
                                     type="button"
                                     className="task-form__close"
@@ -103,6 +110,7 @@ export default function Modal(props){
                                 </div>
 
                                 <Executors
+                                    users={props.users}
                                     chosenExecutors={chosenExecutors}
                                     setChosenExecutors={setChosenExecutors}
                                 />

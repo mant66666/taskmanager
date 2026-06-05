@@ -18,6 +18,7 @@ module.exports = {
             directory: path.join(__dirname, "dist"),
         },
         hot: true,
+        historyApiFallback: true,
         liveReload: true,
         open: false,
         port: 3000,
