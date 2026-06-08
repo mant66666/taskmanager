@@ -1,18 +1,23 @@
 .authorization {
-  width: min(720px, calc(100% - 32px));
+  width: 100%;
   margin: auto;
-  padding: 24px 0;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .authorization__form {
-  display: grid;
-  grid-template-columns: minmax(160px, 1fr) minmax(160px, 1fr) auto;
-  align-items: end;
-  gap: 14px;
-  padding: 18px;
+  width: 50vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  padding: 40px;
   background: #ffffff;
   border: 1px solid #dce2e6;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 12px 30px rgba(23, 32, 42, 0.08);
 }
 
@@ -45,6 +50,12 @@
   box-shadow: 0 0 0 3px rgba(47, 111, 104, 0.14);
 }
 
+.authorization__input--error,
+.authorization__input--error:focus {
+  border-color: #c94b4b;
+  box-shadow: 0 0 0 3px rgba(201, 75, 75, 0.12);
+}
+
 .authorization__button {
   height: 40px;
   padding: 0 22px;
@@ -63,12 +74,32 @@
   box-shadow: 0 10px 18px rgba(47, 111, 104, 0.24);
 }
 
+.authorization__registration {
+  height: 40px;
+  border: 1px solid #dce2e6;
+  border-radius: 8px;
+  background: transparent;
+  color: #7b8790;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.authorization__registration:hover {
+  background: #f4f6f5;
+  color: #344250;
+}
+
 @media (max-width: 768px) {
   .authorization__form {
-    grid-template-columns: 1fr;
+    width: 100%;
+    height: auto;
+    min-height: 50vh;
+    padding: 28px 20px;
   }
 
-  .authorization__button {
+  .authorization__button,
+  .authorization__registration {
     width: 100%;
   }
 }

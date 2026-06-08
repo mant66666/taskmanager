@@ -1,8 +1,11 @@
+import { useUserData } from '../UserContext';
 export default function Analytics({ tasks = [] }) {
-    const completedTasks = tasks.filter((task) => task.completed).length;
-    const activeTasks = tasks.length - completedTasks;
-    const completedPercent = tasks.length
-        ? Math.round((completedTasks / tasks.length) * 100)
+    const { user = {} } = useUserData();
+    let sortedTasks=tasks.filter((task)=>task.creator?.login === user.login || task.executors?.some((executor) => executor.login === user.login));
+    const completedTasks = sortedTasks.filter((task) => task.completed).length;
+    const activeTasks = sortedTasks.length - completedTasks;
+    const completedPercent = sortedTasks.length
+        ? Math.round((completedTasks / sortedTasks.length) * 100)
         : 0;
 
     return (
@@ -14,7 +17,7 @@ export default function Analytics({ tasks = [] }) {
             <section className="analytics">
                 <div className="analytics__item">
                     <span className="analytics__label">Всего задач</span>
-                    <strong className="analytics__value">{tasks.length}</strong>
+                    <strong className="analytics__value">{sortedTasks.length}</strong>
                 </div>
 
                 <div className="analytics__item">

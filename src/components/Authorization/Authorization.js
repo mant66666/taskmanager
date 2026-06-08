@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import { useUserData } from '../UserContext';
 import { checkAuthorisation } from '../../api/checkAuthorisation';
+import Registration from '../Registration/Registration';
 
 export default function Authorization() {
     const [loginValue, setLoginValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    
+    const [hasError, setHasError] = useState(false);
+
+    const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+
     const { login } = useUserData();
 
     async function handleSubmit(event) {
@@ -14,7 +20,13 @@ export default function Authorization() {
 
         if (authorizedUser) {
             login(authorizedUser);
+        } else {
+            setHasError(true);
         }
+    }
+
+    if (isRegistrationOpen) {
+        return <Registration onBack={() => setIsRegistrationOpen(false)} />;
     }
 
     return (
@@ -26,10 +38,13 @@ export default function Authorization() {
                     </label>
                     <input
                         id="auth-login"
-                        className="authorization__input"
+                        className={`authorization__input${hasError ? ' authorization__input--error' : ''}`}
                         type="text"
                         placeholder="Введите логин"
-                        onChange={(event) => setLoginValue(event.target.value)}
+                        onChange={(event) => {
+                            setLoginValue(event.target.value);
+                            setHasError(false);
+                        }}
                     />
                 </div>
 
@@ -39,15 +54,26 @@ export default function Authorization() {
                     </label>
                     <input
                         id="auth-password"
-                        className="authorization__input"
+                        className={`authorization__input${hasError ? ' authorization__input--error' : ''}`}
                         type="password"
                         placeholder="Введите пароль"
-                        onChange={(event) => setPasswordValue(event.target.value)}
+                        onChange={(event) => {
+                            setPasswordValue(event.target.value);
+                            setHasError(false);
+                        }}
                     />
                 </div>
 
                 <button className="authorization__button" type="submit">
                     Войти
+                </button>
+
+                <button
+                    className="authorization__registration"
+                    type="button"
+                    onClick={() => setIsRegistrationOpen(true)}
+                >
+                    Регистрация
                 </button>
             </form>
         </section>

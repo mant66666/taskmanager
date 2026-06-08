@@ -54,7 +54,7 @@ const users = [
             company: 'CloudCore',
         },
 ];
-function checkAuthorisation(loginValue, passwordValue){
+function checkServerAuthorisation(loginValue, passwordValue){
   const existUser = users.find((user) =>
     user.login === loginValue && user.password === passwordValue
   );
@@ -73,10 +73,34 @@ app.get("/api/tasks", (req, res) => {
 app.get("/api/users", (req, res) => {
   res.json(users);
 });
+app.post("/api/addnewuser", (req, res) => {
+  const { firstName, lastName, role, login, password } = req.body;
+
+  const existingUser = users.find((user) => user.login === login);
+
+  if (existingUser) {
+    return res.status(409).json({ message: "Login already exists" });
+  }
+
+  const newUser = {
+    name: `${firstName} ${lastName}`.trim(),
+    firstName,
+    lastName,
+    role,
+    login,
+    password,
+  };
+
+  users.push(newUser);
+
+  const { password: userPassword, ...userWithoutPassword } = newUser;
+
+  res.status(201).json(userWithoutPassword);
+});
 app.post("/api/checkuser", (req, res) => {
   const { login, password } = req.body;
 
-  const authorisedUser = checkAuthorisation(login, password);
+  const authorisedUser = checkServerAuthorisation(login, password);
 
   if (!authorisedUser) {
     return res.status(401).json({ message: "Wrong login or password" });
