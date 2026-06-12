@@ -9,23 +9,10 @@ import Modal from './components/Modals/Modal';
 import Authorization from './components/Authorization/Authorization';
 import { useUserData } from './components/UserContext';
 
-import { getTasks, createTask } from "./api/getTasks";
+import { getTasks} from "./api/getTasks";
+import { createTask } from "./api/createTask";
 import { getUsers} from "./api/getUsers";
-
-function getSavedTasks() {
-    const savedTasks = localStorage.getItem('tasks');
-
-    if (!savedTasks) {
-        return [];
-    }
-
-    try {
-        return JSON.parse(savedTasks);
-    } catch (error) {
-        localStorage.removeItem('tasks');
-        return [];
-    }
-}
+import { updateTask } from './api/updateTask';
 
 function getSavedFilter() {
     return localStorage.getItem('filter') || '';
@@ -36,12 +23,11 @@ export default function App() {
     
     const [users, setUsers] = useState([]);
 
-    const [tasks, setTasks] = useState(getSavedTasks);
+    const [tasks, setTasks] = useState([]);
     const [filter, setFilter] = useState(getSavedFilter);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editTask, setEditTask] = useState(null);
-
+    const [taskToEdit, setTaskToEdit] = useState(null);
 
 
     useEffect(() => {
@@ -50,18 +36,10 @@ export default function App() {
         });
     }, []);
     useEffect(() => {
-        if (localStorage.getItem('tasks')) {
-            return;
-        }
-
         getTasks().then((data) => {
             setTasks(data);
         });
     }, []);
-
-    useEffect(() => {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }, [tasks]);
 
     useEffect(() => {
         if (filter) {
@@ -71,18 +49,18 @@ export default function App() {
         }
     }, [filter]);
 
+    function openModal(selectedTask) {
+        const taskForEditing = selectedTask && selectedTask.id ? selectedTask : null;
 
-    async function handleCreateTask(title) {
-        const newTask = await createTask(title);
-        setTasks((prevTasks) => [...prevTasks, newTask]);
-    }
-    function openModal(taskToEdit) {
-        const task = taskToEdit && taskToEdit.id ? taskToEdit : null;
-
-        setEditTask(task);
+        setTaskToEdit(taskForEditing);
         setIsModalOpen(true);
     }
-    
+
+    async function handleCreateTask(task) {
+        const newTask = await createTask(task);
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+    }
+
     function addTask(title, description, chosenExecutors) {
         if (!title.trim() && !description.trim()) {
             return false;
@@ -100,28 +78,20 @@ export default function App() {
         };
 
         setFilter('');
-        setTasks((prevTasks) => [...prevTasks, newTask]);
+        handleCreateTask(newTask);
         
         return true;
         
     }
 
-    function editTasks(id, title, text, executors){
-        const newTasks = tasks.map((task) => {
-            if (task.id === id) {
-                return {
-                    ...task,
-                    title,
-                    text,
-                    executors,
-                };
-            }
-            
-            return task;
-        });
+    async function handleEditTask(task) {
+        const editedTasks = await updateTask(task);
+        setTasks(() => editedTasks);
+    }
 
-        setTasks(newTasks);
-        setEditTask(null);
+    function editTask(id, title, text, executors){
+        handleEditTask({id, title, text, executors});
+        setTaskToEdit(null);
     }
 
     function handleLogout() {
@@ -154,9 +124,9 @@ export default function App() {
                     <Modal
                         setIsModalOpen={setIsModalOpen}
                         addTask={addTask}
-                        taskToEdit={editTask || null}
-                        editTasks={editTasks}
-                        setEditTask={setEditTask}
+                        taskToEdit={taskToEdit}
+                        editTask={editTask}
+                        setTaskToEdit={setTaskToEdit}
                         users={users}
                     />
                 )}

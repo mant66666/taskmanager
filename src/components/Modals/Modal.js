@@ -8,7 +8,7 @@ export default function Modal(props){
 
     function closeModal() {
         props.setIsModalOpen(false);
-        props.setEditTask(null);
+        props.setTaskToEdit(null);
         setTitle('');
         setDescription('');
         setChosenExecutors([]);
@@ -22,7 +22,7 @@ export default function Modal(props){
         }
         
         if(props.taskToEdit){
-            props.editTasks(props.taskToEdit.id, title, description,chosenExecutors);
+            props.editTask(props.taskToEdit.id, title, description,chosenExecutors);
         }
         else{
             const taskAdded = props.addTask(title, description, chosenExecutors);

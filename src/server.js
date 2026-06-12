@@ -15,9 +15,9 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
-const tasks = [];
+let tasks = [];
 
-const users = [
+let users = [
         {
             name: 'Alex Carter',
             login: 'alex',
@@ -70,9 +70,39 @@ function checkServerAuthorisation(loginValue, passwordValue){
 app.get("/api/tasks", (req, res) => {
   res.json(tasks);
 });
+app.post("/api/addtask", (req, res) => {
+  const { id,title,text,completed,creator,executors } =req.body;
+  const newTask = { id, title, text, completed, creator, executors };
+  tasks.push(newTask);
+  res.json(newTask);
+});
+app.post("/api/edittask", (req, res) => {
+  const { id,title,text,executors, completed } =req.body;
+  const updatedTasks = tasks.map((task) => {
+    if (task.id === id) {
+    return {
+        ...task,
+        ...(title !== undefined && { title }),
+        ...(text !== undefined && { text }),
+        ...(executors !== undefined && { executors }),
+        ...(completed !== undefined && { completed }),
+    };
+    }       
+    return task;
+  });
+  tasks=updatedTasks;
+  res.json(tasks);
+});
 app.get("/api/users", (req, res) => {
   res.json(users);
 });
+app.post("/api/deletetask", (req, res) => {
+  const {id} =req.body;
+  const newTasks = tasks.filter((task) => task.id !== id);
+  tasks=newTasks;
+  res.json(newTasks);
+});
+
 app.post("/api/addnewuser", (req, res) => {
   const { firstName, lastName, role, login, password } = req.body;
 
@@ -108,6 +138,7 @@ app.post("/api/checkuser", (req, res) => {
 
   res.json(authorisedUser);
 });
+
 app.listen(3001, () => {
   console.log("Server is running on http://localhost:3001");
 });

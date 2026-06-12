@@ -1,25 +1,23 @@
 import Task from "./Task"
-
+import { deleteTask as deleteTaskApi } from '../../api/deleteTask';
+import { handleToggleTask as toggleTaskApi } from '../../api/handleToggleTask';
 export function Tasks(props){
     const user = JSON.parse(localStorage.getItem("user")) || {};
 
-    function deleteTask(id) {
-        const newTasks = props.tasks.filter((task) => task.id !== id);
+    async function handleDeleteTask(id) {
+        const newTasks = await deleteTaskApi({id});
         props.setTasks(newTasks);
+    }
+    function deleteTask(id) {
+        handleDeleteTask(id);
     } 
 
-    function toggleTask(id) {
-        const newTasks = props.tasks.map((task) => {
-            if (task.id === id) {
-                return {
-                    ...task,
-                    completed: !task.completed,
-                };
-            }
-
-            return task;
+    async function toggleTask(id) {
+        const task = props.tasks.find((task) => task.id === id);
+        const newTasks = await toggleTaskApi({
+            id,
+            completed: !task.completed,
         });
-
         props.setTasks(newTasks);
     }
 
