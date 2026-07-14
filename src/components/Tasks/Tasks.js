@@ -2,7 +2,7 @@ import Task from "./Task"
 import { deleteTask as deleteTaskApi } from '../../api/deleteTask';
 import { handleToggleTask as toggleTaskApi } from '../../api/handleToggleTask';
 export function Tasks(props){
-    const user = JSON.parse(localStorage.getItem("user")) || {};
+    const user = props.user;
 
     async function handleDeleteTask(id) {
         const newTasks = await deleteTaskApi({id});
@@ -20,7 +20,8 @@ export function Tasks(props){
         });
         props.setTasks(newTasks);
     }
-
+    console.log('tasks:', props.tasks);
+    console.log('is array:', Array.isArray(props.tasks));
     const filteredTasks = props.tasks.filter((task) => {
             if (props.filter === 'completed') {
                 return task.completed;

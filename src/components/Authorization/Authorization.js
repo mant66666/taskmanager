@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useUserData } from '../UserContext';
+import { useDispatch } from 'react-redux';
+import { login as loginRedux } from '../../store/userSlice';
 import { checkAuthorisation } from '../../api/checkAuthorisation';
 import Registration from '../Registration/Registration';
 
 export default function Authorization() {
+    const dispatch = useDispatch();
     const [loginValue, setLoginValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     
@@ -11,15 +13,13 @@ export default function Authorization() {
 
     const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
 
-    const { login } = useUserData();
-
     async function handleSubmit(event) {
         event.preventDefault();
 
         const authorizedUser = await checkAuthorisation(loginValue, passwordValue);
 
         if (authorizedUser) {
-            login(authorizedUser);
+            dispatch(loginRedux(authorizedUser));
         } else {
             setHasError(true);
         }

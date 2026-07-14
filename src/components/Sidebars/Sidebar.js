@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
-import { useUserData } from "../UserContext";
+import { useSelector } from "react-redux";
 
 export function Sidebar(props){
-    const { user = {} } = useUserData();
+    const user = useSelector((state) => state.user.user) || {};
     const userInitial = user.name ? user.name.charAt(0) : 'U';
 
     return(

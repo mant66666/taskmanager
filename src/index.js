@@ -1,13 +1,18 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+
 import App from './App';
 import '@assets/styles/main.scss';
-import { UserProvider } from './components/UserContext';
+
 const container = document.getElementById('root');
+
 createRoot(container).render(
     <BrowserRouter>
-        <UserProvider>
+        <Provider store={store}>
             <App />
-        </UserProvider>
+        </Provider>
     </BrowserRouter>
 );

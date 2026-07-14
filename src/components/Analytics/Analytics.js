@@ -1,6 +1,6 @@
-import { useUserData } from '../UserContext';
+import { useSelector } from 'react-redux';
 export default function Analytics({ tasks = [] }) {
-    const { user = {} } = useUserData();
+    const user = useSelector((state) => state.user.user) || {};
     let sortedTasks=tasks.filter((task)=>task.creator?.login === user.login || task.executors?.some((executor) => executor.login === user.login));
     const completedTasks = sortedTasks.filter((task) => task.completed).length;
     const activeTasks = sortedTasks.length - completedTasks;
