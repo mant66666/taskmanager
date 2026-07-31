@@ -20,8 +20,8 @@ export function Tasks(props){
         });
         props.setTasks(newTasks);
     }
-    console.log('tasks:', props.tasks);
-    console.log('is array:', Array.isArray(props.tasks));
+
+
     const filteredTasks = props.tasks.filter((task) => {
             if (props.filter === 'completed') {
                 return task.completed;
@@ -58,7 +58,7 @@ export function Tasks(props){
                 </div>
 
                 {tasks.map((task) => (
-                    <Task key={task.id} taskData={task} toggleTask={toggleTask} deleteTask={deleteTask} openModal={props.openModal} executors={props} />
+                    <Task key={task.id} taskData={task} toggleTask={toggleTask} deleteTask={deleteTask} openModal={props.openModal} executors={props} user={user}/>
                 ))}
             </section>
         );
@@ -97,7 +97,7 @@ export function Tasks(props){
                             </div>
                         )}
                     </div>
-
+                {user.role === "founder" &&(
                     <button
                         type="button"
                         className="table__tasks_add"
@@ -105,6 +105,8 @@ export function Tasks(props){
                     >
                         +
                     </button>
+                )}
+                    
                 </div>
     )
 }

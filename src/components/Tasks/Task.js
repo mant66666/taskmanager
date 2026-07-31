@@ -1,4 +1,5 @@
 export default function Task(props){
+    const user=props.user;
     const executors = props.taskData.executors || [];
     const executorsText = executors.length
         ? executors.map((executor) => executor.name).join(', ')
@@ -27,21 +28,24 @@ export default function Task(props){
             onChange={() => props.toggleTask(props.taskData.id)}
             />
 
-            <button
-            type="button"
-            className="table__tasks-item_edit"
-            onClick={() => props.openModal(props.taskData)}
-            >
-            🖊️
-            </button>
-
-            <button
-            type="button"
-            className="table__tasks-item_edit"
-            onClick={() => props.deleteTask(props.taskData.id)}
-            >
-                🗑️
-            </button>
+            {user.role === "founder" &&(
+                <button
+                type="button"
+                className="table__tasks-item_edit"
+                onClick={() => props.openModal(props.taskData)}
+                >
+                🖊️
+                </button>
+            )}
+            {user.role === "founder" &&(
+                <button
+                type="button"
+                className="table__tasks-item_edit"
+                onClick={() => props.deleteTask(props.taskData.id)}
+                >
+                    🗑️
+                </button>
+            )}
         </div>
     )
 }

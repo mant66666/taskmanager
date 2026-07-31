@@ -70,7 +70,8 @@
 }
 
 .registration__submit,
-.registration__back {
+.registration__back,
+.registration__company-button {
   width: 100%;
   height: 40px;
   border-radius: 8px;
@@ -91,9 +92,109 @@
   color: #7b8790;
 }
 
+.registration__company-button {
+  border: 1px solid #2f6f68;
+  background: transparent;
+  color: #2f6f68;
+  font-weight: 700;
+}
+
+.registration__company-button:hover {
+  background: #edf5f4;
+}
+
 .registration__back:hover {
   background: #f4f6f5;
   color: #344250;
+}
+
+.company-registration {
+  width: 100%;
+  margin: auto;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-registration__form {
+  width: min(100%, 520px);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #ffffff;
+  border: 1px solid #dce2e6;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(23, 32, 42, 0.08);
+}
+
+.company-registration__eyebrow {
+  margin: 0;
+  color: #2f6f68;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.company-registration__title {
+  margin: -8px 0 0;
+  color: #17202a;
+  font-size: 28px;
+}
+
+.company-registration__description {
+  margin: -8px 0 0;
+  color: #65727d;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.company-registration__field {
+  margin-top: 4px;
+}
+
+.company-registration__label {
+  display: block;
+  margin-bottom: 8px;
+  color: #344250;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.company-registration__input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #cfd8dd;
+  border-radius: 8px;
+  background: #f7f9f8;
+  color: #17202a;
+  font-size: 14px;
+}
+
+.company-registration__input:focus {
+  outline: none;
+  border-color: #2f6f68;
+  box-shadow: 0 0 0 3px rgba(47, 111, 104, 0.14);
+}
+
+.company-registration__submit {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  background: #2f6f68;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.company-registration__submit:hover {
+  background: #275f59;
 }
 
 @media (max-width: 768px) {
@@ -105,5 +206,9 @@
 
   .registration__fields {
     grid-template-columns: 1fr;
+  }
+
+  .company-registration__form {
+    padding: 28px 20px;
   }
 }

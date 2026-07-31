@@ -7,6 +7,7 @@ import Analytics from './components/Analytics/Analytics';
 import Modal from './components/Modals/Modal';
 
 import Authorization from './components/Authorization/Authorization';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './store/userSlice';
 
@@ -32,15 +33,18 @@ export default function App() {
     const [taskToEdit, setTaskToEdit] = useState(null);
 
     useEffect(() => {
-        getUsers().then((data) => {
+        if (!user) {
+            setTasks([]);
+            setUsers([]);
+            return;
+        }
+        getUsers(user.id).then((data) => {
             setUsers(data);
         });
-    }, []);
-    useEffect(() => {
-        getTasks().then((data) => {
+        getTasks(user.id).then((data) => {
             setTasks(data);
         });
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         if (filter) {
@@ -71,10 +75,11 @@ export default function App() {
             title: title.trim(),
             text: description.trim(),
             completed: false,
-            creator: user ? {
-                name: user .name,
-                login: user .login,
-            } : null,
+            company: user.company,
+            creator: {
+                name: user.name,
+                login: user.login,
+            },
             executors: chosenExecutors,
         };
 
@@ -115,7 +120,7 @@ export default function App() {
                                 <Filters filter={filter} setFilter={setFilter}/>
                             </div>
 
-                            <Tasks tasks={tasks} filter={filter} openModal={openModal} setTasks={setTasks} user={user}/>
+                            <Tasks tasks={tasks} filter={filter} openModal={openModal} setTasks={setTasks} user={user} users={users}/>
                         </main>
                     )} />
                     <Route path="/analytics" element={<Analytics tasks={tasks} />} />

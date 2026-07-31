@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login as loginRedux } from '../../store/userSlice';
+import { login } from '../../store/userSlice';
 import { checkAuthorisation } from '../../api/checkAuthorisation';
-import Registration from '../Registration/Registration';
+import RegistrationPage from '../Registration/RegistrationPage';
 
 export default function Authorization() {
     const dispatch = useDispatch();
@@ -19,14 +19,14 @@ export default function Authorization() {
         const authorizedUser = await checkAuthorisation(loginValue, passwordValue);
 
         if (authorizedUser) {
-            dispatch(loginRedux(authorizedUser));
+            dispatch(login(authorizedUser));
         } else {
             setHasError(true);
         }
     }
 
     if (isRegistrationOpen) {
-        return <Registration onBack={() => setIsRegistrationOpen(false)} />;
+        return <RegistrationPage onBack={() => setIsRegistrationOpen(false)} />;
     }
 
     return (

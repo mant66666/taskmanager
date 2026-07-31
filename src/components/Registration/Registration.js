@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { addNewUser } from '../../api/addNewUser';
-export default function Registration({ onBack, onSubmit }) {
+
+export default function Registration({ onBack, setCurrentForm }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [role, setRole] = useState('');
+    const [company, setCompany] = useState('');
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [hasError, setHasError] = useState(false);
-
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -20,7 +21,8 @@ export default function Registration({ onBack, onSubmit }) {
 
         onSubmit?.(newUser);
         onBack();
-    }
+    };
+    
 
     return (
         <section className="registration">
@@ -76,6 +78,20 @@ export default function Registration({ onBack, onSubmit }) {
                     </div>
 
                     <div className="registration__field">
+                        <label className="registration__label" htmlFor="registration-company">
+                            Компания
+                        </label>
+                        <input
+                            id="registration-company"
+                            className="registration__input"
+                            type="text"
+                            value={company}
+                            onChange={(event) => setCompany(event.target.value)}
+                            placeholder="Введите название компании"
+                        />
+                    </div>
+
+                    <div className="registration__field">
                         <label className="registration__label" htmlFor="registration-login">
                             Логин
                         </label>
@@ -120,6 +136,10 @@ export default function Registration({ onBack, onSubmit }) {
 
                 <button className="registration__submit" type="submit">
                     Создать аккаунт
+                </button>
+
+                <button className="registration__company-button" type="button" onClick={() => setCurrentForm("company")} >
+                    Регистрация компании
                 </button>
 
                 <button className="registration__back" type="button" onClick={onBack}>

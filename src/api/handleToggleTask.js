@@ -6,6 +6,8 @@ export async function handleToggleTask(task) {
     },
     body: JSON.stringify(task),
   });
-
+  if (!res.ok) {
+    throw new Error("Не удалось изменить задачу");
+  }
   return res.json();
 }

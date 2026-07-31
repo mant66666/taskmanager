@@ -27,6 +27,17 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
+async function getAllUsers(){
+  try {
+    const result = await db.query("SELECT * FROM users");
+    const users = result.rows;
+
+    return users;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
 async function checkServerAuthorisation(loginValue, passwordValue){
   const users=await getAllUsers();
@@ -41,6 +52,12 @@ async function checkServerAuthorisation(loginValue, passwordValue){
   const { password, ...userWithoutPassword } = existUser;
 
   return userWithoutPassword;
+}
+
+async function isLoginAvailable(loginValue) {
+  const users = await getAllUsers();
+
+  return !users.some((user) => user.login === loginValue);
 }
 
 function normalizeTask(task) {
@@ -69,21 +86,38 @@ async function getAllTasks(){
 }
 app.get("/api/tasks", async (req, res) => {
   try {
-    const tasks = await getAllTasks();
+    const { userId } = req.query;
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+    const userResult = await db.query(
+      "SELECT company FROM users WHERE id = $1",
+      [userId]
+    );
+    const user = userResult.rows[0];
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const result = await db.query(
+      "SELECT * FROM tasks WHERE company = $1",
+      [user.company]
+    );
+    const tasks = result.rows.map((task) => normalizeTask(task));
     res.json(tasks);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Failed to get tasks" });
   }
 });
 app.post("/api/addtask", async (req, res) => {
   try {
-    const { id, title, text, completed, creator, executors } = req.body;
+    const { id, title, text, completed, company, creator, executors } = req.body;
 
     const result = await db.query(
-      `INSERT INTO tasks (id, title, text, completed, creator, executors)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING *`,
-      [id, title, text, completed, creator, JSON.stringify(executors)]
+      `INSERT INTO tasks (id, title, text, completed, company, creator, executors)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *`,
+      [id, title, text, completed, company, creator, JSON.stringify(executors)]
     );
 
     res.json(normalizeTask(result.rows[0]));
@@ -103,7 +137,9 @@ app.post("/api/edittask", async (req, res) => {
         id,
         title !== undefined ? title : oldTask.title,
         text !== undefined ? text : oldTask.text,
-        executors !== undefined ? JSON.stringify(executors) : oldTask.executors,
+        JSON.stringify(
+          executors !== undefined ? executors : oldTask.executors
+        ),
         completed !== undefined ? completed : oldTask.completed,
       ]
     );
@@ -126,21 +162,33 @@ app.post("/api/deletetask", async (req, res) => {
   }
 });
 
-async function getAllUsers(){
-  try {
-    const result = await db.query("SELECT * FROM users");
-    const users = result.rows;
-
-    return users;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
 app.get("/api/users", async (req, res) => {
   try {
-    const result = await getAllUsers();
-    res.json(result);
+    const { userId } = req.query;
+
+    const currentUserResult = await db.query(
+      "SELECT role, company FROM users WHERE id = $1",
+      [userId]
+    );
+
+    const currentUser = currentUserResult.rows[0];
+
+    if (!currentUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (currentUser.role !== "founder") {
+      return res.json([]);
+    }
+
+    const usersResult = await db.query(
+      `SELECT id, name, login, role, company
+       FROM users
+       WHERE company = $1`,
+      [currentUser.company]
+    );
+
+    res.json(usersResult.rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to get users" });
@@ -148,13 +196,14 @@ app.get("/api/users", async (req, res) => {
 });
 app.post("/api/addnewuser", async (req, res) => {
   try {
-    const { firstName, lastName, login, password, role} = req.body;
+    const { firstName, lastName, login, password, role, company} = req.body;
+    const id = Date.now();
     const name = `${firstName} ${lastName}`.trim();
     const result = await db.query(
-      `INSERT INTO users (name, login, password, role)
-      VALUES ($1, $2, $3, $4)
+      `INSERT INTO users (id, name, login, password, role, company)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *`,
-      [name, login, password, role]
+      [id, name, login, password, role, company]
     );
 
     res.json(result.rows[0]);
@@ -174,6 +223,75 @@ app.post("/api/checkuser", async (req, res) => {
 
   res.json(authorisedUser);
 });
+
+
+
+async function isCompanyNameAvailable(company){
+  try {
+    const result = await db.query("SELECT * FROM companies WHERE name=$1",[company]);
+
+    const existcompany = result.rows;
+    if (result.rows.length === 0) {
+      return true
+    } else {
+      return false
+    }
+  } catch (error) {
+  console.error(error);
+  return null;
+  }
+  }
+
+app.post("/api/registercompany", async (req,res) =>{
+    try {
+      const { firstName, lastName, login, password, company} = req.body;
+      const authorisedUser = await checkServerAuthorisation(login, password);
+      let availableCompany=await isCompanyNameAvailable(company);
+      const name = `${firstName} ${lastName}`.trim();
+      const id = Date.now();
+      if (authorisedUser&&availableCompany){
+        const result = await db.query(
+          `INSERT INTO companies (name, creator_id) VALUES ($1, $2) RETURNING id`,
+          [company, authorisedUser.id]
+        );
+        return res.status(201).json({
+          message: "Company created successfully",
+          company: result.rows[0],
+        });
+      }
+
+      if (availableCompany === null) {
+        return res.status(500).json({
+          message: "Failed to check company name",
+        });
+      }
+      if (availableCompany === false) {
+        return res.status(409).json({
+          message: "company with your name already exists",
+        });
+      }
+      if (!authorisedUser){
+        let addUser = await db.query(
+          `INSERT INTO users (id, name, login, password, role, company)
+          VALUES ($1, $2, $3, $4, $5, $6)
+          RETURNING *`,
+          [id, name, login, password, "founder", company]
+        );
+        let addCompany = await db.query(
+          `INSERT INTO companies (name, creator_id) VALUES ($1, $2) RETURNING id`,
+          [company, id]
+        );
+        return res.status(201).json({
+          message: "User and company created successfully",
+        });
+      }
+        
+    }
+    catch(error){
+      console.error(error);
+      res.status(500).json({ message: "Failed to create company" });
+    }
+})
 
 app.listen(3001, () => {
   console.log("Server is running on http://localhost:3001");
