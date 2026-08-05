@@ -1,34 +1,58 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getCurrentUser as getCurrentUserApi } from '../api/getCurrentUser';
+import { logOutCurrentUser as logOutCurrentUserApi } from '../api/logoutUser';
 
-function getSavedUser() {
-    const savedUser = localStorage.getItem('user');
-
-    if (!savedUser) {
-        return null;
+export const fetchUserThunk = createAsyncThunk(
+    'api/me',
+    async () => {
+        return getCurrentUserApi();
     }
+);
 
-    try {
-        return JSON.parse(savedUser);
-    } catch (error) {
-        localStorage.removeItem('user');
-        return null;
+export const logoutUserThunk = createAsyncThunk(
+    'api/logout',
+    async () => {
+        return logOutCurrentUserApi();
     }
-}
+);
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        user: getSavedUser(),
+        user: null,
     },
     reducers: {
         login(state, action) {
-            localStorage.setItem('user', JSON.stringify(action.payload));
             state.user = action.payload;
         },
-        logout(state) {
-            localStorage.removeItem('user');
-            state.user = null;
-        },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchUserThunk.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchUserThunk.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.user = action.payload;
+            })
+            .addCase(fetchUserThunk.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+
+            .addCase(logoutUserThunk.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(logoutUserThunk.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.user = null;
+            })
+            .addCase(logoutUserThunk.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
     },
 });
 

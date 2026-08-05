@@ -1,4 +1,7 @@
+import { useDispatch } from 'react-redux';
+import { deleteTaskThunk, editTaskThunk } from "../../store/tasksSlice";
 export default function Task(props){
+    const dispatch = useDispatch();
     const user=props.user;
     const executors = props.taskData.executors || [];
     const executorsText = executors.length
@@ -25,7 +28,7 @@ export default function Task(props){
             type="checkbox"
             className="table__tasks-item_done"
             checked={props.taskData.completed}
-            onChange={() => props.toggleTask(props.taskData.id)}
+            onChange={() => dispatch(editTaskThunk({id: props.taskData.id, completed: !props.taskData.completed}))}
             />
 
             {user.role === "founder" &&(
@@ -41,7 +44,7 @@ export default function Task(props){
                 <button
                 type="button"
                 className="table__tasks-item_edit"
-                onClick={() => props.deleteTask(props.taskData.id)}
+                onClick={() => dispatch(deleteTaskThunk({id: props.taskData.id}))}
                 >
                     🗑️
                 </button>

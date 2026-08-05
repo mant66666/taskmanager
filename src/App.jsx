@@ -11,40 +11,38 @@ import Authorization from './components/Authorization/Authorization';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './store/userSlice';
 
-import { getTasks} from "./api/getTasks";
-import { createTask } from "./api/createTask";
-import { getUsers} from "./api/getUsers";
-import { updateTask } from './api/updateTask';
+import { fetchUsersThunk } from "./store/usersSlice";
+import { fetchUserThunk } from "./store/userSlice";
 
+import { createTaskThunk, fetchTasksThunk, editTaskThunk } from './store/tasksSlice';
 function getSavedFilter() {
     return localStorage.getItem('filter') || '';
 }
 
 export default function App() {
-    const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     
-    const [users, setUsers] = useState([]);
+    
+    const users = useSelector((state) => state.users.items);
+    const tasks = useSelector((state) => state.tasks.items);
 
-    const [tasks, setTasks] = useState([]);
     const [filter, setFilter] = useState(getSavedFilter);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState(null);
 
     useEffect(() => {
+        dispatch(fetchUserThunk());
+    }, []);
+
+    useEffect(() => { 
         if (!user) {
-            setTasks([]);
-            setUsers([]);
             return;
-        }
-        getUsers(user.id).then((data) => {
-            setUsers(data);
-        });
-        getTasks(user.id).then((data) => {
-            setTasks(data);
-        });
-    }, [user]);
+        };
+        dispatch(fetchUsersThunk(user.id));
+        dispatch(fetchTasksThunk(user.id));
+    }, [user, dispatch]);
 
     useEffect(() => {
         if (filter) {
@@ -61,15 +59,11 @@ export default function App() {
         setIsModalOpen(true);
     }
 
-    async function handleCreateTask(task) {
-        const newTask = await createTask(task);
-        setTasks((prevTasks) => [...prevTasks, newTask]);
-    }
-
     function addTask(title, description, chosenExecutors) {
         if (!title.trim() && !description.trim()) {
             return false;
         }
+
         const newTask = {
             id: Date.now(),
             title: title.trim(),
@@ -83,31 +77,23 @@ export default function App() {
             executors: chosenExecutors,
         };
 
+        dispatch(createTaskThunk(newTask));
         setFilter('');
-        handleCreateTask(newTask);
-        
+
         return true;
-        
     }
 
-    async function handleEditTask(task) {
-        const editedTasks = await updateTask(task);
-        setTasks(() => editedTasks);
-    }
 
     function editTask(id, title, text, executors){
-        handleEditTask({id, title, text, executors});
+        dispatch(editTaskThunk({id, title, text, executors}));
         setTaskToEdit(null);
     }
 
-    function handleLogout() {
-        dispatch(logout());
-    }
 
     if(user){
         return (
             <>
-                <Sidebar onLogout={handleLogout} />
+                <Sidebar />
                 
                 <Routes>
                     <Route path="/" element={(
@@ -120,7 +106,7 @@ export default function App() {
                                 <Filters filter={filter} setFilter={setFilter}/>
                             </div>
 
-                            <Tasks tasks={tasks} filter={filter} openModal={openModal} setTasks={setTasks} user={user} users={users}/>
+                            <Tasks tasks={tasks} filter={filter} openModal={openModal} user={user} users={users}/>
                         </main>
                     )} />
                     <Route path="/analytics" element={<Analytics tasks={tasks} />} />

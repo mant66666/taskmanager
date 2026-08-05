@@ -7,5 +7,9 @@ export async function createTask(task) {
     body: JSON.stringify( task ),
   });
 
+  if (!res.ok) {
+    throw new Error("Не удалось создать задачу");
+  }
+
   return res.json();
 }

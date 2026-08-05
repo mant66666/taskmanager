@@ -5,6 +5,7 @@ export async function checkAuthorisation(login, password) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ login, password }),
+    credentials: "include",
   });
 
   if (!res.ok) {

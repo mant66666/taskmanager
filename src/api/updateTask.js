@@ -7,5 +7,9 @@ export async function updateTask(task) {
     body: JSON.stringify( task ),
   });
 
+  if (!res.ok) {
+    throw new Error("Не удалось обновить задачу");
+  }
+
   return res.json();
 }

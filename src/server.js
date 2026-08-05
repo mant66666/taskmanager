@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const { Pool } = require("pg");
+const session = require("express-session");
 
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
 
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
   }
@@ -26,6 +27,25 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+
+if (!process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET is not set");
+}
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
+
 
 async function getAllUsers(){
   try {
@@ -84,9 +104,42 @@ async function getAllTasks(){
     return [];
   }
 }
+
+app.get("/api/me", async (req, res) => {
+  const userId = req.session.userId;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Not authorised" });
+  }
+
+  const userResult = await db.query(
+    "SELECT id, name, login, role, company FROM users WHERE id = $1",
+    [userId]
+  );
+
+  const user = userResult.rows[0];
+
+  if (!user) {
+    return res.status(401).json({ message: "User not found" });
+  }
+
+  return res.json(user);
+});
+
+app.post("/api/logout", (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      return res.status(500).json({ message: "Failed to log out" });
+    }
+
+    res.clearCookie("connect.sid");
+    return res.sendStatus(204);
+  });
+});
+
 app.get("/api/tasks", async (req, res) => {
   try {
-    const { userId } = req.query;
+    const userId = req.session.userId;
     if (!userId) {
       return res.status(400).json({ message: "userId is required" });
     }
@@ -220,7 +273,8 @@ app.post("/api/checkuser", async (req, res) => {
   if (!authorisedUser) {
     return res.status(401).json({ message: "Wrong login or password" });
   }
-
+  req.session.userId = authorisedUser.id;
+  
   res.json(authorisedUser);
 });
 
